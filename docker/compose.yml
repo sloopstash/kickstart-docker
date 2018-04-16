@@ -14,7 +14,7 @@ services:
     depends_on:
       - redis
     networks:
-      - demo-stack
+      - demo-net
   redis:
     image: demo/redis:v1
     container_name: demo-redis
@@ -27,8 +27,8 @@ services:
       - /opt/kickstart-docker/supervisor/conf/main.conf:/etc/supervisord.conf
       - /opt/kickstart-docker/supervisor/conf/redis.ini:/etc/supervisord.d/redis.ini
     networks:
-      - demo-stack
+      - demo-net
 networks:
-  demo-stack:
+  demo-net:
     external:
-      name: demo-stack
+      name: demo-net

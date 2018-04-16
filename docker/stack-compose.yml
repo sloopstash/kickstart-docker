@@ -13,7 +13,7 @@ services:
     depends_on:
       - redis
     networks:
-      - demo-stack
+      - demo-net
     deploy:
       mode: replicated
       replicas: 2
@@ -28,4 +28,4 @@ services:
       - /opt/kickstart-docker/supervisor/conf/main.conf:/etc/supervisord.conf
       - /opt/kickstart-docker/supervisor/conf/redis.ini:/etc/supervisord.d/redis.ini
     networks:
-      - demo-stack
+      - demo-net
