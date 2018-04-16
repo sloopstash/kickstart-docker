@@ -1,0 +1,31 @@
+version: '3'
+services:
+  app:
+    image: demo/app:v1
+    command: "/usr/bin/supervisord -c /etc/supervisord.conf"
+    hostname: demo-app
+    ports:
+      - "8080:80"
+    volumes:
+      - /opt/kickstart-docker/app:/opt/app
+      - /opt/kickstart-docker/supervisor/conf/main.conf:/etc/supervisord.conf
+      - /opt/kickstart-docker/supervisor/conf/app.ini:/etc/supervisord.d/app.ini
+    depends_on:
+      - redis
+    networks:
+      - demo-stack
+    deploy:
+      mode: replicated
+      replicas: 2
+  redis:
+    image: demo/redis:v1
+    command: "/usr/bin/supervisord -c /etc/supervisord.conf"
+    hostname: demo-redis
+    volumes:
+      - /opt/kickstart-docker/redis/data:/opt/redis/data
+      - /opt/kickstart-docker/redis/log:/opt/redis/log
+      - /opt/kickstart-docker/redis/conf/main.conf:/opt/redis/conf/redis.conf
+      - /opt/kickstart-docker/supervisor/conf/main.conf:/etc/supervisord.conf
+      - /opt/kickstart-docker/supervisor/conf/redis.ini:/etc/supervisord.d/redis.ini
+    networks:
+      - demo-stack

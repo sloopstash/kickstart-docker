@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Create Ticket</title>
+  </head>
+  <body>
+    <center><h3>Create new Ticket</h3></center>
+    <center>
+      <form role="form" method="post" action="/ticket/create">
+        <div><input type="text" placeholder="subject" name="subject" maxlength="50" required/></div>
+        <br>
+        <div><textarea placeholder="description" name="description" maxlength="255" required></textarea></div>
+        <br>
+        <button type="submit">submit</button>
+      </form>
+    </center>
+  </body>
+</html>

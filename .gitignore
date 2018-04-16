@@ -1,0 +1,4 @@
+*.pyc
+redis/data/snapshot.rdb
+redis/log/redis.log
+tmp/*

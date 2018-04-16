@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>View Ticket</title>
+  </head>
+  <body>
+    <center><h3>New Ticket created!</h3></center>
+    <table style="width:100%; border:1px solid black;">
+      <tr>
+        <th>Id</th>
+        <th>Subject</th> 
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td style="text-align:center;">{{vars['id']}}</td>
+        <td style="text-align:center;">{{vars['data']['subject']}}</td> 
+        <td style="text-align:center;">{{vars['data']['description']}}</td>
+      </tr>
+    </table>
+  </body>
+</html>
