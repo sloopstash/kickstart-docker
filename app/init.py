@@ -7,7 +7,7 @@ import json
 import redis
 
 # initialize redis connector.
-redis_engine = redis.Redis(connection_pool=redis.ConnectionPool(host='demo-redis',port=6379,max_connections=10,db=0))
+redis_engine = redis.Redis(connection_pool=redis.ConnectionPool(host='redis',port=6379,max_connections=5,db=0))
 
 # intialize flask app.
 app = Flask('demo app',template_folder='templates')

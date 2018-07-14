@@ -5,7 +5,8 @@ FROM demo/base:v1
 RUN set -x \
   && pip install flask==0.12.1 \
   && pip install redis==2.10.5 \
-  && mkdir /opt/app
+  && mkdir /opt/app \
+  && history -c
 
-# cleanup history.
-RUN history -c
+# set default work directory.
+WORKDIR /opt/app

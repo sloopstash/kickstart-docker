@@ -1,17 +1,11 @@
 # pull core image.
-FROM centos:7
-
-# install epel repo.
-RUN set -x \
-  && yum install -y epel-release \
-  && yum update -y
+FROM amazonlinux:2
 
 # install system packages.
 RUN set -x \
+  && yum update -y \
   && yum install -y wget vim net-tools initscripts gcc make tar \
   && yum install -y python-devel python-setuptools \
   && easy_install supervisor pip \
-  && mkdir /etc/supervisord.d
-
-# cleanup history.
-RUN history -c
+  && mkdir /etc/supervisord.d \
+  && history -c

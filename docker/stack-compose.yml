@@ -16,7 +16,7 @@ services:
       - demo-net
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: 10
   redis:
     image: demo/redis:v1
     command: "/usr/bin/supervisord -c /etc/supervisord.conf"
@@ -29,3 +29,7 @@ services:
       - /opt/kickstart-docker/supervisor/conf/redis.ini:/etc/supervisord.d/redis.ini
     networks:
       - demo-net
+networks:
+  demo-net:
+    external:
+      name: demo-net
