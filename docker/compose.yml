@@ -14,7 +14,8 @@ services:
     depends_on:
       - redis
     networks:
-      - demo-net
+      demo-net:
+        ipv4_address: 100.3.1.10
   redis:
     image: demo/redis:v1
     container_name: demo-redis
@@ -27,7 +28,8 @@ services:
       - /opt/kickstart-docker/supervisor/conf/main.conf:/etc/supervisord.conf
       - /opt/kickstart-docker/supervisor/conf/redis.ini:/etc/supervisord.d/redis.ini
     networks:
-      - demo-net
+      demo-net:
+        ipv4_address: 100.3.1.20
 networks:
   demo-net:
     external:

@@ -2,7 +2,7 @@
 FROM demo/base:v1
 
 # install system packages.
-RUN yum install -y jemalloc tcl
+RUN yum install -y tcl
 
 # download and extract redis.
 WORKDIR /tmp
