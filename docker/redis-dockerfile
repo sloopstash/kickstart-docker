@@ -1,5 +1,5 @@
 # pull base image.
-FROM demo/base:v1
+FROM sloopstash/amazonlinux:v1
 
 # install system packages.
 RUN yum install -y tcl

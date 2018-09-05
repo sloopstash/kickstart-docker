@@ -1,1 +1,0 @@
-redis writes redis.log file in this directory.
