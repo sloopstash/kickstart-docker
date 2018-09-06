@@ -1,4 +1,4 @@
-# pull base image.
+# use base image.
 FROM sloopstash/amazonlinux:v1
 
 # install system packages.

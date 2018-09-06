@@ -1,4 +1,4 @@
-# pull base image.
+# use base image.
 FROM sloopstash/amazonlinux:v1
 
 # install nginx.
@@ -9,8 +9,9 @@ RUN set -x \
 
 # install python packages.
 RUN set -x \
-  && pip install flask==1.0.2 \
+  && pip install flask==0.12.4 \
   && pip install redis==2.10.6 \
+  && pip install elastic-apm[flask] \
   && mkdir /opt/app \
   && history -c
 
