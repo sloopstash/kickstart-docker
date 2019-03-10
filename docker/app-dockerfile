@@ -11,7 +11,7 @@ RUN set -x \
 RUN set -x \
   && pip install flask==0.12.4 \
   && pip install redis==2.10.6 \
-  && pip install elastic-apm[flask] \
+  && pip install elastic-apm[flask]==3.0.5 \
   && mkdir /opt/app \
   && history -c
 
