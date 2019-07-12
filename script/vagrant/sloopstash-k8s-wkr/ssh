@@ -1,0 +1,3 @@
+#!/bin/bash
+
+VAGRANT_DISABLE_VBOXSYMLINKCREATE=1 VAGRANT_VAGRANTFILE=vagrant/sloopstash-k8s-wkr.vagrantfile vagrant ssh
