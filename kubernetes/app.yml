@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels:
+    service: app
+spec:
+  selector:
+    matchLabels:
+      service: app
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        service: app
+    spec:
+      containers:
+        - name: app
+          image: sloopstash/app:v1
+          volumeMounts:
+            - name: opt-app
+              mountPath: /opt/app
+            - name: etc-nginx-nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+            - name: etc-nginx-conf-d-app-conf
+              mountPath: /etc/nginx/conf.d/app.conf
+            - name: etc-supervisord-conf
+              mountPath: /etc/supervisord.conf
+            - name: etc-supervisord-d-app-ini
+              mountPath: /etc/supervisord.d/app.ini
+            - name: etc-supervisord-d-nginx-ini
+              mountPath: /etc/supervisord.d/nginx.ini
+          command:
+            - "/usr/bin/supervisord"
+            - "-c"
+            - "/etc/supervisord.conf"
+          ports:
+            - containerPort: 80
+      volumes:
+        - name: opt-app
+          hostPath:
+            path: /opt/kickstart-docker/app
+            type: Directory
+        - name: etc-nginx-nginx-conf
+          hostPath:
+            path: /opt/kickstart-docker/nginx/conf/main.conf
+            type: File
+        - name: etc-nginx-conf-d-app-conf
+          hostPath:
+            path: /opt/kickstart-docker/nginx/conf/app.conf
+            type: File
+        - name: etc-supervisord-conf
+          hostPath:
+            path: /opt/kickstart-docker/supervisor/conf/main.conf
+            type: File
+        - name: etc-supervisord-d-app-ini
+          hostPath:
+            path: /opt/kickstart-docker/supervisor/conf/app.ini
+            type: File
+        - name: etc-supervisord-d-nginx-ini
+          hostPath:
+            path: /opt/kickstart-docker/supervisor/conf/nginx.ini
+            type: File
