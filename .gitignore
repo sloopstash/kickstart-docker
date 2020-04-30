@@ -2,3 +2,5 @@
 redis/data/snapshot.rdb
 redis/log/redis.log
 tmp/*
+app/*
+.vagrant/*
