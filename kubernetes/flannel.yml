@@ -190,6 +190,7 @@ spec:
         args:
         - --ip-masq
         - --kube-subnet-mgr
+        - --iface=eth1
         resources:
           requests:
             cpu: "100m"
@@ -285,6 +286,7 @@ spec:
         args:
         - --ip-masq
         - --kube-subnet-mgr
+        - --iface=eth1
         resources:
           requests:
             cpu: "100m"
@@ -380,6 +382,7 @@ spec:
         args:
         - --ip-masq
         - --kube-subnet-mgr
+        - --iface=eth1
         resources:
           requests:
             cpu: "100m"
@@ -475,6 +478,7 @@ spec:
         args:
         - --ip-masq
         - --kube-subnet-mgr
+        - --iface=eth1
         resources:
           requests:
             cpu: "100m"
@@ -570,6 +574,7 @@ spec:
         args:
         - --ip-masq
         - --kube-subnet-mgr
+        - --iface=eth1
         resources:
           requests:
             cpu: "100m"
