@@ -15,7 +15,7 @@ spec:
         service: app
     spec:
       containers:
-        - name: app
+        - name: main
           image: sloopstash/app:v1
           volumeMounts:
             - name: opt-app

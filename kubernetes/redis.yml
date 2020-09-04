@@ -15,7 +15,7 @@ spec:
         service: redis
     spec:
       containers:
-        - name: redis
+        - name: main
           image: sloopstash/redis:v1
           volumeMounts:
             - name: opt-redis-data
