@@ -15,7 +15,7 @@ services:
     depends_on:
       - redis
     networks:
-      - crm-net
+      - crm-stg-net
     deploy:
       mode: replicated
       replicas: 5
@@ -29,8 +29,8 @@ services:
       - /opt/kickstart-docker/supervisor/conf/main.conf:/etc/supervisord.conf
       - /opt/kickstart-docker/supervisor/conf/redis.ini:/etc/supervisord.d/redis.ini
     networks:
-      - crm-net
+      - crm-stg-net
 networks:
-  crm-net:
+  crm-stg-net:
     external:
-      name: crm-net
+      name: crm-stg-net
