@@ -1,7 +1,7 @@
-# pull core image.
+# Docker image to use.
 FROM amazonlinux:2
 
-# install system packages.
+# Install system packages.
 RUN set -x \
   && yum update -y \
   && yum install -y wget vim net-tools initscripts gcc make tar bind-utils nc \
