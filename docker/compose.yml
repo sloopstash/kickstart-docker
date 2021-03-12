@@ -25,14 +25,19 @@ services:
     command: "/usr/bin/supervisord -c /etc/supervisord.conf"
     hostname: crm-redis
     volumes:
-      - /opt/kickstart-docker/redis/data:/opt/redis/data
-      - /opt/kickstart-docker/redis/log:/opt/redis/log
+      - redis-data:/opt/redis/data
+      - redis-log:/opt/redis/log
       - /opt/kickstart-docker/redis/conf/main.conf:/opt/redis/conf/redis.conf
       - /opt/kickstart-docker/supervisor/conf/main.conf:/etc/supervisord.conf
       - /opt/kickstart-docker/supervisor/conf/redis.ini:/etc/supervisord.d/redis.ini
     networks:
       crm-net:
         ipv4_address: 100.1.1.20
+volumes:
+  redis-data:
+    driver: local
+  redis-log:
+    driver: local
 networks:
   crm-net:
     external:
