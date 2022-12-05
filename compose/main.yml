@@ -4,7 +4,7 @@ services:
     image: sloopstash/app:v1
     command: "/usr/bin/supervisord -c /etc/supervisord.conf"
     ports:
-      - "8080:80"
+      - "${APP_PORT}:80"
     volumes:
       - ../app:/opt/app
       - ../nginx/conf/main.conf:/etc/nginx/nginx.conf
@@ -16,7 +16,7 @@ services:
       - redis
     networks:
       common:
-        ipv4_address: 100.1.1.10
+        ipv4_address: ${APP_IP}
   redis:
     image: sloopstash/redis:v1
     command: "/usr/bin/supervisord -c /etc/supervisord.conf"
@@ -28,7 +28,7 @@ services:
       - ../supervisor/conf/redis.ini:/etc/supervisord.d/redis.ini
     networks:
       common:
-        ipv4_address: 100.1.1.20
+        ipv4_address: ${REDIS_IP}
 volumes:
   redis-data:
     driver: local
@@ -40,4 +40,4 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 100.1.0.0/16
+        - subnet: ${NETWORK}
