@@ -7,8 +7,10 @@ RUN set -x \
   && yum install -y nginx-1.14.0-1.el7_4.ngx.x86_64.rpm \
   && rm nginx-1.14.0-1.el7_4.ngx.x86_64.rpm
 
-# Create Nginx directories.
+# Create App and Nginx directories.
 RUN set -x \
+  && mkdir /opt/app \
+  && mkdir /opt/app/source \
   && mkdir /opt/nginx \
   && mkdir /opt/nginx/log \
   && history -c
