@@ -1,5 +1,5 @@
 # Docker image to use.
-FROM sloopstash/amazonlinux:v1
+FROM sloopstash/base:v1.1.1
 
 # Install system packages.
 RUN yum install -y tcl
@@ -7,24 +7,24 @@ RUN yum install -y tcl
 # Download and extract Redis.
 WORKDIR /tmp
 RUN set -x \
-  && wget http://download.redis.io/releases/redis-2.8.19.tar.gz --quiet \
-  && tar xvzf redis-2.8.19.tar.gz > /dev/null
+  && wget http://download.redis.io/releases/redis-4.0.9.tar.gz --quiet \
+  && tar xvzf redis-4.0.9.tar.gz > /dev/null
 
 # Compile and install Redis.
-WORKDIR redis-2.8.19
+WORKDIR redis-4.0.9
 RUN set -x \
   && make distclean \
   && make \
   && make install
 
-# Create necessary directories.
+# Create Redis directories.
 WORKDIR ../
 RUN set -x \
-  && rm -rf redis-2.8.19* \
+  && rm -rf redis-4.0.9* \
   && mkdir /opt/redis \
   && mkdir /opt/redis/data \
-  && mkdir /opt/redis/conf \
   && mkdir /opt/redis/log \
+  && mkdir /opt/redis/conf \
   && history -c
 
 # Set default work directory.

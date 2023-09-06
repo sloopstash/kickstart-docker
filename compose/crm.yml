@@ -1,0 +1,58 @@
+version: '3.8'
+services:
+  nginx:
+    image: sloopstash/nginx:v1.14.0
+    command: "/usr/bin/supervisord -c /etc/supervisord.conf"
+    ports:
+      - "${CRM_NGINX_PORT}:80"
+    volumes:
+      - nginx-log:/opt/nginx/log
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../nginx/${CRM_NGINX_VERSION}/conf/supervisor.ini:/etc/supervisord.d/nginx.ini
+      - ../nginx/${CRM_NGINX_VERSION}/conf/server.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+    networks:
+      common:
+        ipv4_address: ${CRM_NGINX_IP}
+  app:
+    image: sloopstash/python:v2.7
+    command: "/usr/bin/supervisord -c /etc/supervisord.conf"
+    volumes:
+      - ${CRM_APP_SOURCE}:/opt/app/source
+      - app-log:/opt/app/log
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../crm/app/conf/supervisor.ini:/etc/supervisord.d/app.ini
+    depends_on:
+      - redis
+    networks:
+      common:
+        ipv4_address: ${CRM_APP_IP}
+  redis:
+    image: sloopstash/redis:v4.0.9
+    command: "/usr/bin/supervisord -c /etc/supervisord.conf"
+    volumes:
+      - redis-data:/opt/redis/data
+      - redis-log:/opt/redis/log
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
+      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/redis.conf
+    networks:
+      common:
+        ipv4_address: ${CRM_REDIS_IP}
+volumes:
+  redis-data:
+    driver: local
+  redis-log:
+    driver: local
+  app-log:
+    driver: local
+  nginx-log:
+    driver: local
+networks:
+  common:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${CRM_NETWORK}
