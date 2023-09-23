@@ -2,7 +2,8 @@ version: '3.8'
 services:
   redis:
     image: sloopstash/redis:v4.0.9
-    command: "/usr/bin/supervisord -c /etc/supervisord.conf"
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
     volumes:
       - redis-data:/opt/redis/data
       - redis-log:/opt/redis/log
@@ -13,8 +14,11 @@ services:
       common:
         ipv4_address: ${CRM_REDIS_IP}
   app:
-    image: sloopstash/python:v2.7
-    command: "/usr/bin/supervisord -c /etc/supervisord.conf"
+    image: sloopstash/python:v2.7    
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    environment:
+      - STATIC_ENDPOINT=http://app-static.crm.${EXTERNAL_DOMAIN}:${CRM_NGINX_PORT}
     volumes:
       - ${CRM_APP_SOURCE}:/opt/app/source
       - app-log:/opt/app/log
@@ -27,7 +31,8 @@ services:
         ipv4_address: ${CRM_APP_IP}
   nginx:
     image: sloopstash/nginx:v1.14.0
-    command: "/usr/bin/supervisord -c /etc/supervisord.conf"
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
     ports:
       - "${CRM_NGINX_PORT}:80"
     volumes:
