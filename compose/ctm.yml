@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  mongo-db:
+    image: sloopstash/mongo-db:v4.4.4
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - mongo-db-data:/opt/mongo-db/data
+      - mongo-db-log:/opt/mongo-db/log
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../mongo-db/${CTM_MONGO_DB_VERSION}/conf/supervisor.ini:/etc/supervisord.d/mongo-db.ini
+      - ../mongo-db/${CTM_MONGO_DB_VERSION}/conf/server.conf:/opt/mongo-db/conf/mongod.conf
+    networks:
+      common:
+        ipv4_address: ${CTM_MONGO_DB_IP}
+  app:
+    image: sloopstash/node-js:v14.16.0
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - ${CTM_APP_SOURCE}:/opt/app/source
+      - app-log:/opt/app/log
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../ctm/app/conf/supervisor.ini:/etc/supervisord.d/app.ini
+    depends_on:
+      - mongo-db
+    networks:
+      common:
+        ipv4_address: ${CTM_APP_IP}
+volumes:
+  mongo-db-data:
+    driver: local
+  mongo-db-log:
+    driver: local
+  app-log:
+    driver: local
+networks:
+  common:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${CTM_NETWORK}
