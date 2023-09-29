@@ -2,7 +2,7 @@
 FROM sloopstash/base:v1.1.1
 
 # Install system packages.
-RUN yum install -y procps libcurl openssl xz-libs
+RUN yum install -y libcurl openssl xz-libs
 
 # Switch work directory.
 WORKDIR /tmp

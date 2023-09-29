@@ -17,6 +17,8 @@ services:
     image: sloopstash/node-js:v14.16.0
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
+    ports:
+      - "${CTM_APP_PORT}:2000"
     volumes:
       - ${CTM_APP_SOURCE}:/opt/app/source
       - app-log:/opt/app/log

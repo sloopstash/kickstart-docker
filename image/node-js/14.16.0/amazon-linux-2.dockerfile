@@ -2,7 +2,7 @@
 FROM sloopstash/base:v1.1.1
 
 # Install system packages.
-RUN yum install -y procps xz
+RUN yum install -y xz
 
 # Switch work directory.
 WORKDIR /tmp
@@ -16,10 +16,12 @@ RUN set -x \
   && rm -rf node-v14.16.0-linux-x64*
 
 # Install NodeJS packages.
-ENV PATH=/usr/local/lib/node-js/node-v14.16.0-linux-x64/bin:$PATH
+ENV PATH=/usr/local/lib/node-js/bin:$PATH
+ENV NODE_PATH=/opt/app/node_modules
 RUN set -x \
   && npm install mongodb@3.6.5 \
-  && npm install express@4.17.1
+  && npm install express@4.17.1 \
+  && npm install yargs@17.7.2
 
 # Create App directories.
 RUN set -x \
