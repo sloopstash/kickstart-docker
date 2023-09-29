@@ -17,11 +17,11 @@ RUN set -x \
 
 # Install NodeJS packages.
 ENV PATH=/usr/local/lib/node-js/bin:$PATH
-ENV NODE_PATH=/opt/app/node_modules
+ENV NODE_PATH=/usr/local/lib/node-js/lib/node_modules
 RUN set -x \
-  && npm install mongodb@3.6.5 \
-  && npm install express@4.17.1 \
-  && npm install yargs@17.7.2
+  && npm install -g mongodb@3.6.5 \
+  && npm install -g express@4.17.1 \
+  && npm install -g yargs@17.7.2
 
 # Create App directories.
 RUN set -x \
