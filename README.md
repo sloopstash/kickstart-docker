@@ -1,2 +1,2 @@
 # Kickstart Docker
-The ultimate aim of this Docker starter-kit is to help you deploy a sample CRM app service and Redis database service on Docker containers.
+Our Docker starter-kit repository contains OCI image templates, Docker Compose YAML configurations, and workload-specific configurations required to automate and run containerized workloads using standalone Docker container engine.
