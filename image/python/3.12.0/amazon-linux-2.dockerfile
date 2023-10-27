@@ -12,15 +12,15 @@ RUN set -x \
 # Download and build Python 3.12.0
 WORKDIR /tmp
 RUN set -x \
-    && wget https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz --quiet && \
-    tar -xzf Python-3.12.0.tgz > /dev/null
+    && wget https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz --quiet \ 
+    && tar -xzf Python-3.12.0.tgz > /dev/null
 
 # Compile and install Redis.
 RUN set -x \
-    && cd Python-3.12.0 && \
-        ./configure --enable-optimizations && \
-    make altinstall && \
-    rm -rf /tmp/Python-3.12.0*
+    && cd Python-3.12.0 \
+    && ./configure --enable-optimizations \
+    && make altinstall \
+    && rm -rf /tmp/Python-3.12.0*
 
 # Set the default Python version
 RUN ln -s /usr/local/bin/python3.12 /usr/local/bin/python
