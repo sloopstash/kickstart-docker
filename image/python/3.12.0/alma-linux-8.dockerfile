@@ -18,6 +18,12 @@ RUN set -x \
   && make altinstall \
   && rm -rf /tmp/Python-3.12.0*
 
+# Install Python dependent packages to start app.
+RUN set -x \
+  && pip3 install flask==0.12.4 \
+  && pip3 install redis==2.10.6 \
+  && pip3 install elastic-apm[flask]==3.0.5
+
 # Create App directories.
 RUN set -x \
   && mkdir /opt/app \
