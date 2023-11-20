@@ -1,9 +1,6 @@
 # Docker image to use.
 FROM sloopstash/base:v1.1.1
 
-# Contribution & Support
-MAINTAINER SloopStash
-
 # Install system packages.
 RUN yum install -y tcl
 

@@ -1,30 +1,18 @@
 # Docker image to use.
 FROM sloopstash/base:v1.1.1
 
-# Contribution & Support
-MAINTAINER SloopStash
-
-# Install system packages.
-RUN yum install -y pcre-devel pcre2-devel zlib-devel
-
-# Download and extract Nginx.
-WORKDIR /tmp
+# Install Nginx.
 RUN set -x \
-  && wget wget http://nginx.org/download/nginx-1.24.0.tar.gz --quiet \
-  && tar xvzf nginx-1.24.0.tar.gz > /dev/null
+  && wget https://nginx.org/packages/rhel/7/x86_64/RPMS/nginx-1.24.0-1.el7.ngx.x86_64.rpm --quiet \
+  && yum install -y nginx-1.24.0-1.el7.ngx.x86_64.rpm \
+  && rm nginx-1.24.0-1.el7.ngx.x86_64.rpm
 
-# Compile and install Redis.
-WORKDIR nginx-1.24.0
+# Create App and Nginx directories.
 RUN set -x \
-  && ./configure --prefix=/usr/local/nginx \
-  && make \
-  && make install
-
-# Create Redis directories.
-WORKDIR ../
-RUN set -x \
-  && rm -rf nginx-1.24.0* \
-  && ln -s /usr/local/nginx /opt/ \
+  && mkdir /opt/app \
+  && mkdir /opt/app/source \
+  && mkdir /opt/nginx \
+  && mkdir /opt/nginx/log \
   && history -c
 
 # Set default work directory.
