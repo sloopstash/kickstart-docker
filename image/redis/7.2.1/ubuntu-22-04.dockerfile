@@ -1,9 +1,6 @@
 # Docker image to use.
 FROM sloopstash/base-ubuntu-22-04:v1.1.1
 
-# Contribution & Support
-MAINTAINER SloopStash
-
 # Install system packages.
 RUN set -x \
  && apt-get -y install tcl
