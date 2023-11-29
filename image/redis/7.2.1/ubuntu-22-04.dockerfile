@@ -2,8 +2,7 @@
 FROM sloopstash/base-ubuntu-22-04:v1.1.1
 
 # Install system packages.
-RUN set -x \
- && apt-get -y install tcl
+RUN apt-get -y install tcl
 
 # Download and extract Redis.
 WORKDIR /tmp
