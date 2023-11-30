@@ -18,6 +18,7 @@ RUN set -x \
   && touch /root/.ssh/config \
   && echo -e "Host *\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null" >> /root/.ssh/config \
   && chmod 400 /root/.ssh/config
+ADD node.pub /root/.ssh/authorized_keys
 
 # Set default work directory.
 WORKDIR /
