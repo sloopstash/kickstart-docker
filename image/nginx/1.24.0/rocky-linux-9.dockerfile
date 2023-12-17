@@ -1,19 +1,27 @@
 #Docker image to use.
-FROM base/rocky-linux-9:v1.1.1
+FROM sloopstash/rocky-linux-9:v1.1.1
+
+# Install system packages.
+RUN dnf install -y pcre-devel pcre2-devel zlib-devel
 
 # Install Nginx.
+WORKDIR /tmp
 RUN set -x \
-  && wget https://nginx.org/download/nginx-1.24.0.tar.gz --quiet \
-  && tar xvzf nginx-1.24.0.tar.gz > /dev/null \
-  && yum install -y nginx-1.24.0-1.el7.ngx.x86_64.rpm \
-  && rm nginx-1.24.0-1.el7_4.ngx.x86_64.rpm
+  && wget http://nginx.org/download/nginx-1.24.0.tar.gz --quiet \
+  && tar xvzf nginx-1.24.0.tar.gz > /dev/null
 
-# Create App and Nginx directories.
+# Compile and install Redis.
+WORKDIR nginx-1.24.0
 RUN set -x \
-  && mkdir -p /opt/app \
-  && mkdir -p /opt/app/source \
-  && mkdir -p /opt/nginx \
-  && mkdir -p /opt/nginx/log \
+  && ./configure --prefix=/usr/local/nginx \
+  && make \
+  && make install
+
+# Create Redis directories.
+WORKDIR ../
+RUN set -x \
+  && rm -rf nginx-1.24.0* \
+  && ln -s /usr/local/nginx /opt/ \
   && history -c
 
 # Set default work directory.
