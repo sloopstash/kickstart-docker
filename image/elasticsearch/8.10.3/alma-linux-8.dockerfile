@@ -13,8 +13,9 @@ COPY ["elasticsearch-8.10.3-linux-x86_64.tar.gz", "elasticsearch-8.10.3-linux-x8
 RUN set -x \
   && sha512sum -c elasticsearch-8.10.3-linux-x86_64.tar.gz.sha512 \
   && tar -xzf elasticsearch-8.10.3-linux-x86_64.tar.gz > /dev/null \
-  && rm -rf elasticsearch-8.10.3-linux-x86_64.tar.gz \
-  && rm -rf elasticsearch-8.10.3-linux-x86_64.tar.gz.sha512*
+  && cp -r elasticsearch-8.10.3/* /usr/local/lib/elasticsearch/ \
+  && chown -R elasticsearch:elasticsearch /usr/local/lib/elasticsearch \
+  && rm -rf elasticsearch-8.10.3*
 
 # Create Elasticsearch directories.
 RUN set -x \
