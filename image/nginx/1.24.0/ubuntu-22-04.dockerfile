@@ -12,8 +12,7 @@ RUN set -x \
   && mkdir /opt/app \
   && mkdir /opt/app/source \
   && mkdir /opt/nginx \
-  && mkdir /opt/nginx/log \
-  && history -c
-
+  && mkdir /opt/nginx/log 
+  
 # Set default work directory.
 WORKDIR /opt/nginx

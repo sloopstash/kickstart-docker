@@ -1,9 +1,9 @@
 # Docker image to use.
-FROM sloopstash/base:v1.1.1
+FROM sloopstash/base-ubuntu-22-04:v1.1.1
 
 #Install system packages.
 RUN set -x \
-  && apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev
+  && apt -y install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev
 
 # Download and extract OpenSSL and Python.
 WORKDIR /tmp

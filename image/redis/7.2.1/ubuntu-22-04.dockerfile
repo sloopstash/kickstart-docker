@@ -1,9 +1,6 @@
 # Docker image to use.
 FROM sloopstash/base-ubuntu-22-04:v1.1.1
 
-# Install system packages.
-RUN apt-get -y install tcl
-
 # Download and extract Redis.
 WORKDIR /tmp
 RUN set -x \
@@ -24,8 +21,7 @@ RUN set -x \
   && mkdir /opt/redis \
   && mkdir /opt/redis/data \
   && mkdir /opt/redis/log \
-  && mkdir /opt/redis/conf \
-  && history -c
+  && mkdir /opt/redis/conf
 
 # Set default work directory.
 WORKDIR /opt/redis
