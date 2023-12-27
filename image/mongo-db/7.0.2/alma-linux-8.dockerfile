@@ -9,8 +9,7 @@ COPY ["mongodb-org-server-7.0.2-1.el7.x86_64.rpm", "mongodb-org-mongos-7.0.2-1.e
 RUN set -x \
   && dnf install -y mongodb-org-server-7.0.2-1.el7.x86_64.rpm --quiet \
   && dnf install -y mongodb-org-mongos-7.0.2-1.el7.x86_64.rpm --quiet \
-  && rm -rf mongodb-org-server-7.0.2-1.el7.x86_64.rpm \
-  && rm -rf mongodb-org-mongos-7.0.2-1.el7.x86_64.rpm*
+  && rm -rf mongodb-org*
 
 # Create MongoDB directories.
 RUN set -x \
