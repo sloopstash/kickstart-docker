@@ -2,7 +2,9 @@
 FROM sloopstash/base-ubuntu-22-04:v1.1.1
 
 # Install system packages.
-RUN apt-get install libcurl4 libgssapi-krb5-2 libldap-2.5-0 libwrap0 libsasl2-2 libsasl2-modules libsasl2-modules-gssapi-mit openssl liblzma5
+RUN set -x \
+&& apt-get update \
+&& apt-get install libcurl4 libgssapi-krb5-2 libldap-2.5-0 libwrap0 libsasl2-2 libsasl2-modules libsasl2-modules-gssapi-mit openssl liblzma5
 
 # Switch work directory.
 WORKDIR /tmp
