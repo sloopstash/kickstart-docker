@@ -17,7 +17,8 @@ WORKDIR Python-3.12.0
 RUN set -x \
    && ./configure --enable-optimizations \
    && make altinstall \
-   && rm -rf /tmp/Python-3.12.0*
+   && ln -f -s /usr/local/bin/python3.12 /usr/bin/python \
+   && rm -rf /tmp/Python-3.12.0* 
 
 # Create App directories.
 RUN set -x \
