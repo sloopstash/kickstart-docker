@@ -1,5 +1,5 @@
 # Docker image to use.
-FROM sloopstash/base:v1.1.1
+FROM sloopstash/base-amazon-linux-2:v1.1.1
 
 #Install system packages.
 RUN set -x \
