@@ -7,9 +7,9 @@ services:
     volumes:
       - redis-data1:/opt/redis/data
       - redis-log1:/opt/redis/log
-      - ../../supervisor/conf/server.conf:/etc/supervisord.conf
-      - ../../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
-      - ../../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
+      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
     networks:
       common:
         ipv4_address: ${CRM_REDIS1_IP}
@@ -20,9 +20,9 @@ services:
     volumes:
       - redis-data2:/opt/redis/data
       - redis-log2:/opt/redis/log
-      - ../../supervisor/conf/server.conf:/etc/supervisord.conf
-      - ../../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
-      - ../../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
+      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
     networks:
       common:
         ipv4_address: ${CRM_REDIS2_IP}
@@ -33,9 +33,9 @@ services:
     volumes:
       - redis-data3:/opt/redis/data
       - redis-log3:/opt/redis/log
-      - ../../supervisor/conf/server.conf:/etc/supervisord.conf
-      - ../../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
-      - ../../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
+      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
     networks:
       common:
         ipv4_address: ${CRM_REDIS3_IP}
@@ -46,9 +46,9 @@ services:
     volumes:
       - redis-data4:/opt/redis/data
       - redis-log4:/opt/redis/log
-      - ../../supervisor/conf/server.conf:/etc/supervisord.conf
-      - ../../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
-      - ../../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
+      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
     networks:
       common:
         ipv4_address: ${CRM_REDIS4_IP}
@@ -59,9 +59,9 @@ services:
     volumes:
       - redis-data5:/opt/redis/data
       - redis-log5:/opt/redis/log
-      - ../../supervisor/conf/server.conf:/etc/supervisord.conf
-      - ../../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
-      - ../../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
+      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
     networks:
       common:
         ipv4_address: ${CRM_REDIS5_IP}
@@ -72,9 +72,9 @@ services:
     volumes:
       - redis-data6:/opt/redis/data
       - redis-log6:/opt/redis/log
-      - ../../supervisor/conf/server.conf:/etc/supervisord.conf
-      - ../../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
-      - ../../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
+      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
     networks:
       common:
         ipv4_address: ${CRM_REDIS6_IP}
