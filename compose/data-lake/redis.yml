@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   redis-1:
-    image: sloopstash/redis:7.2.1
+    image: sloopstash/redis:v7.2.1
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -14,7 +14,7 @@ services:
       common:
         ipv4_address: ${DLK_REDIS_1_IP}
   redis-2:
-    image: sloopstash/redis:7.2.1
+    image: sloopstash/redis:v7.2.1
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -27,7 +27,7 @@ services:
       common:
         ipv4_address: ${DLK_REDIS_2_IP}
   redis-3:
-    image: sloopstash/redis:7.2.1
+    image: sloopstash/redis:v7.2.1
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -40,7 +40,7 @@ services:
       common:
         ipv4_address: ${DLK_REDIS_3_IP}
   redis-4:
-    image: sloopstash/redis:7.2.1
+    image: sloopstash/redis:v7.2.1
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -53,7 +53,7 @@ services:
       common:
         ipv4_address: ${DLK_REDIS_4_IP}
   redis-5:
-    image: sloopstash/redis:7.2.1
+    image: sloopstash/redis:v7.2.1
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -66,7 +66,7 @@ services:
       common:
         ipv4_address: ${DLK_REDIS_5_IP}
   redis-6:
-    image: sloopstash/redis:7.2.1
+    image: sloopstash/redis:v7.2.1
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
