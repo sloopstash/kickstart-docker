@@ -1,12 +1,14 @@
-#Docker image to use.
-FROM base/rocky-linux-9:v1.1.1
+# Docker image to use.
+FROM sloopstash/base-rocky-linux-9:v1.1.1
 
-# Install Nginx.
+# Download, extract, compile, and install Nginx
 RUN set -x \
-  && wget https://nginx.org/download/nginx-1.24.0.tar.gz --quiet \
-  && tar xvzf nginx-1.24.0.tar.gz > /dev/null \
-  && yum install -y nginx-1.24.0-1.el7.ngx.x86_64.rpm \
-  && rm nginx-1.24.0-1.el7_4.ngx.x86_64.rpm
+    && wget https://nginx.org/download/nginx-1.24.0.tar.gz --quiet \
+    && tar xvzf nginx-1.24.0.tar.gz > /dev/null \
+    && cd nginx-1.24.0 \
+    && ./configure \
+    && make \
+    && make install
 
 # Create App and Nginx directories.
 RUN set -x \
