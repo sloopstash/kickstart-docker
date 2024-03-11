@@ -1,0 +1,129 @@
+version: '3.8'
+services:
+  mongo-db-config-1-Node:
+    image: sloopstash/mongo-db:v7.0.2
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - mongo-db-config-data1:/opt/mongo-db/data
+      - mongo-db-config-log1:/opt/mongo-db/log
+      - ../../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/supervisor.ini:/etc/supervisord.d/mongo-db.ini
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/server.conf:/opt/mongo-db/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${DLK_MONGO_DB_CONFIG_1_IP}
+  mongo-db-config-2-Node:
+    image: sloopstash/mongo-db:v7.0.2
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - mongo-db-config-data2:/opt/mongo-db/data
+      - mongo-db-config-log2:/opt/mongo-db/log
+      - ../../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/supervisor.ini:/etc/supervisord.d/mongo-db.ini
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/server.conf:/opt/mongo-db/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${DLK_MONGO_DB_CONFIG_2_IP}
+  mongo-db-config-3-Node:
+    image: sloopstash/mongo-db:v7.0.2
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - mongo-db-config-data3:/opt/mongo-db/data
+      - mongo-db-config-log3:/opt/mongo-db/log
+      - ../../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/supervisor.ini:/etc/supervisord.d/mongo-db.ini
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/server.conf:/opt/mongo-db/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${DLK_MONGO_DB_CONFIG_3_IP}
+  mongo-db-shard-1-Node:
+    image: sloopstash/mongo-db:v7.0.2
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - mongo-db-shard-data1:/opt/mongo-db/data
+      - mongo-db-shard-log1:/opt/mongo-db/log
+      - ../../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/supervisor.ini:/etc/supervisord.d/mongo-db.ini
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/server.conf:/opt/mongo-db/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${DLK_MONGO_DB_SHARD_1_IP}
+  mongo-db-shard-2-Node:
+    image: sloopstash/mongo-db:v7.0.2
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - mongo-db-shard-data2:/opt/mongo-db/data
+      - mongo-db-shard-log2:/opt/mongo-db/log
+      - ../../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/supervisor.ini:/etc/supervisord.d/mongo-db.ini
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/server.conf:/opt/mongo-db/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${DLK_MONGO_DB_SHARD_2_IP}
+  mongo-db-shard-3-Node:
+    image: sloopstash/mongo-db:v7.0.2
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - mongo-db-shard-data3:/opt/mongo-db/data
+      - mongo-db-shard-log3:/opt/mongo-db/log
+      - ../../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/supervisor.ini:/etc/supervisord.d/mongo-db.ini
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/server.conf:/opt/mongo-db/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${DLK_MONGO_DB_SHARD_3_IP}
+  mongo-db-router-1-Node:
+    image: sloopstash/mongo-db:v7.0.2
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - mongo-db-router-data1:/opt/mongo-db/data
+      - mongo-db-router-log1:/opt/mongo-db/log
+      - ../../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/supervisor.ini:/etc/supervisord.d/mongo-db.ini
+      - ../../mongo-db/${DLK_MONGO_DB_VERSION}/conf/server.conf:/opt/mongo-db/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${DLK_MONGO_DB_ROUTER_1_IP}
+volumes:
+  mongo-db-config-data1:
+    driver: local
+  mongo-db-config-data2:
+    driver: local
+  mongo-db-config-data3:
+    driver: local
+  mongo-db-shard-data1:
+    driver: local
+  mongo-db-shard-data2:
+    driver: local
+  mongo-db-shard-data3:
+    driver: local
+  mongo-db-router-data1:
+    driver: local  
+  mongo-db-config-log1:
+    driver: local
+  mongo-db-config-log2:
+    driver: local
+  mongo-db-config-log3:
+    driver: local
+  mongo-db-shard-log1:
+    driver: local
+  mongo-db-shard-log2:
+    driver: local
+  mongo-db-shard-log3:
+    driver: local
+  mongo-db-router-log1:
+    driver: local  
+networks:
+  common:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${DLK_MONGO_DB_NETWORK}
