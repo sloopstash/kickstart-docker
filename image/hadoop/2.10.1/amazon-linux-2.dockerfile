@@ -1,16 +1,14 @@
 # Docker image to use.
 FROM sloopstash/base:v1.1.1
 
-# Switch work directory.
-WORKDIR /tmp
-
 # Install Oracle JDK.
+WORKDIR /tmp
 COPY jdk-8u131-linux-x64.rpm ./
 RUN set -x \
   && yum install -y jdk-8u131-linux-x64.rpm \
-  && rm jdk-8u131-linux-x64.rpm
+  && rm -f jdk-8u131-linux-x64.rpm
 
-# Download, extract, and install Hadoop.
+# Install Hadoop.
 RUN set -x \
   && wget https://archive.apache.org/dist/hadoop/common/hadoop-2.10.1/hadoop-2.10.1.tar.gz --quiet \
   && tar xvzf hadoop-2.10.1.tar.gz > /dev/null \
