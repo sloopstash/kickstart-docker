@@ -1,18 +1,16 @@
 # Docker image to use.
 FROM sloopstash/base:v1.1.1
 
-# Switch work directory.
-WORKDIR /tmp
-
 # Install Oracle JDK.
+WORKDIR /tmp
 COPY jdk-8u131-linux-x64.rpm ./
 RUN set -x \
   && yum install -y jdk-8u131-linux-x64.rpm \
-  && rm jdk-8u131-linux-x64.rpm
+  && rm -f jdk-8u131-linux-x64.rpm
 
-# Download, extract, and install Kafka.
+# Install Kafka.
 RUN set -x \
-  && wget https://downloads.apache.org/kafka/3.2.1/kafka_2.13-3.2.1.tgz --quiet \
+  && wget https://archive.apache.org/dist/kafka/3.2.1/kafka_2.13-3.2.1.tgz --quiet \
   && tar xvzf kafka_2.13-3.2.1.tgz > /dev/null \
   && mkdir /usr/local/lib/kafka \
   && cp -r kafka_2.13-3.2.1/* /usr/local/lib/kafka/ \

@@ -1,0 +1,113 @@
+version: '3.8'
+services:
+  redis1-Node:
+    image: sloopstash/aml-2-redis-7.2.1:v1.1.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - redis-data1:/opt/redis/data
+      - redis-log1:/opt/redis/log
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
+      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${CRM_REDIS1_IP}
+  redis2-Node:
+    image: sloopstash/aml-2-redis-7.2.1:v1.1.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - redis-data2:/opt/redis/data
+      - redis-log2:/opt/redis/log
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
+      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${CRM_REDIS2_IP}
+  redis3-Node:
+    image: sloopstash/aml-2-redis-7.2.1:v1.1.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - redis-data3:/opt/redis/data
+      - redis-log3:/opt/redis/log
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
+      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${CRM_REDIS3_IP}
+  redis4-Node:
+    image: sloopstash/aml-2-redis-7.2.1:v1.1.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - redis-data4:/opt/redis/data
+      - redis-log4:/opt/redis/log
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
+      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${CRM_REDIS4_IP}
+  redis5-Node:
+    image: sloopstash/aml-2-redis-7.2.1:v1.1.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - redis-data5:/opt/redis/data
+      - redis-log5:/opt/redis/log
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
+      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${CRM_REDIS5_IP}
+  redis6-Node:
+    image: sloopstash/aml-2-redis-7.2.1:v1.1.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - redis-data6:/opt/redis/data
+      - redis-log6:/opt/redis/log
+      - ../supervisor/conf/server.conf:/etc/supervisord.conf
+      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
+      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${CRM_REDIS6_IP}
+
+volumes:
+  redis-data1:
+    driver: local
+  redis-data2:
+    driver: local
+  redis-data3:
+    driver: local
+  redis-data4:
+    driver: local
+  redis-data5:
+    driver: local
+  redis-data6:
+    driver: local
+  redis-log1:
+    driver: local
+  redis-log2:
+    driver: local
+  redis-log3:
+    driver: local
+  redis-log4:
+    driver: local
+  redis-log5:
+    driver: local
+  redis-log6:
+    driver: local
+networks:
+  common:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${CRM_REDIS_NETWORK}
