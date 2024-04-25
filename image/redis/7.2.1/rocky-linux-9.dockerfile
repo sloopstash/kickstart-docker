@@ -1,8 +1,12 @@
 # Docker image to use.
-FROM sloopstash/rocky-linux-9:v1.1.1
+FROM sloopstash/base-rocky-linux-9:v1.1.1
 
 # Install system packages.
 RUN dnf install -y tcl
+
+#Install the redis dependencies package
+RUN set -x \
+    && dnf -y install gcc zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel tk-devel libffi-devel
 
 # Download and extract Redis.
 WORKDIR /tmp
@@ -18,7 +22,7 @@ RUN set -x \
   && make install
 
 # Create Redis directories.
-WORKDIR ../
+WORKDIR ../nunga
 RUN set -x \
   && rm -rf redis-7.2.1* \
   && mkdir /opt/redis \
