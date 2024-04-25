@@ -29,4 +29,3 @@ WORKDIR /opt/nginx
 RUN set -x \
     && dnf remove -y wget tar gcc make pcre-devel zlib-devel \
     && dnf clean all
-
