@@ -1,17 +1,14 @@
 # Docker image to use.
-FROM sloopstash/base:v1.1.1
-
-# Install system packages.
-RUN yum install -y tcl
+FROM sloopstash/base-ubuntu-22-04:v1.1.1
 
 # Download and extract Redis.
 WORKDIR /tmp
 RUN set -x \
-  && wget http://download.redis.io/releases/redis-4.0.9.tar.gz --quiet \
-  && tar xvzf redis-4.0.9.tar.gz > /dev/null
+  && wget http://download.redis.io/releases/redis-7.2.1.tar.gz --quiet \
+  && tar xvzf redis-7.2.1.tar.gz > /dev/null
 
 # Compile and install Redis.
-WORKDIR redis-4.0.9
+WORKDIR redis-7.2.1
 RUN set -x \
   && make distclean \
   && make \
@@ -20,12 +17,11 @@ RUN set -x \
 # Create Redis directories.
 WORKDIR ../
 RUN set -x \
-  && rm -rf redis-4.0.9* \
+  && rm -rf redis-7.2.1* \
   && mkdir /opt/redis \
   && mkdir /opt/redis/data \
   && mkdir /opt/redis/log \
-  && mkdir /opt/redis/conf \
-  && history -c
+  && mkdir /opt/redis/conf
 
 # Set default work directory.
 WORKDIR /opt/redis
