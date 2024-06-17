@@ -20,15 +20,13 @@ RUN set -x \
   && chmod 400 /root/.ssh/config
 ADD node.pub /root/.ssh/authorized_keys
 
-# Switch work directory.
-WORKDIR /tmp
-
 # Install Chef infra client.
+WORKDIR /tmp
 COPY chef-18.3.0-1.el7.x86_64.rpm ./
 RUN set -x \
   && mkdir /var/log/chef \
   && yum install -y chef-18.3.0-1.el7.x86_64.rpm \
-  && rm chef-18.3.0-1.el7.x86_64.rpm \
+  && rm -f chef-18.3.0-1.el7.x86_64.rpm \
   && history -c
 
 # Set default work directory.

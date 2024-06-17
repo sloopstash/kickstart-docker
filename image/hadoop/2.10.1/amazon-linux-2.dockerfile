@@ -25,7 +25,9 @@ RUN set -x \
   && mkdir /opt/hadoop/script \
   && mkdir /opt/hadoop/system \
   && mkdir /opt/hadoop/tmp \
-  && touch /opt/hadoop/system/process.pid \
+  && touch /opt/hadoop/system/node.pid \
+  && touch /opt/hadoop/system/supervisor.ini \
+  && ln -s /opt/hadoop/system/supervisor.ini /etc/supervisord.d/hadoop.ini \
   && history -c
 
 # Set default work directory.

@@ -1,29 +1,34 @@
 # Docker image to use.
-FROM sloopstash/amazon-linux-2-base:v1.1.1
+FROM sloopstash/base:v1.1.1
 
 # Install system packages.
-RUN yum update -y && \
-    yum groupinstall -y "Development Tools" && \
-    yum install -y amazon-linux-extras wget vim net-tools gcc make tar git unzip sysstat tree initscripts bind-utils nc nmap libxml2-devel sqlite-devel.x86_64
+RUN set -x \
+  && yum install -y amazon-linux-extras libxml2-devel sqlite-devel
 
-# Download and Extract PHP 
+# Download and extract PHP.
 WORKDIR /tmp
 RUN set -x \
   && wget https://www.php.net/distributions/php-8.3.3.tar.gz --quiet \
-  && tar -xvzf php-8.3.3.tar.gz > /dev/null
-WORKDIR /php-8.3.3
+  && tar xvzf php-8.3.3.tar.gz > /dev/null
 
-# Configure the PHP build process, build PHP, and install PHP
-RUN ./configure && \
-    make && \
-    make install
+# Compile and install PHP.
+WORKDIR php-8.3.3
+RUN set -x \
+  && ./configure \
+  && make \
+  && make install
 
 # Create App directories.
+WORKDIR ../
 RUN set -x \
+  && rm -rf php-8.3.3* \
   && mkdir /opt/app \
   && mkdir /opt/app/source \
   && mkdir /opt/app/log \
+  && mkdir /opt/app/system \
+  && touch /opt/app/system/supervisor.ini \
+  && ln -s /opt/app/system/supervisor.ini /etc/supervisord.d/app.ini \
   && history -c
 
-  # Set default work directory.
+# Set default work directory.
 WORKDIR /opt/app

@@ -1,16 +1,15 @@
 # Docker image to use.
-FROM sloopstash/base-amazon-linux-2:v1.1.1
+FROM sloopstash/base:v1.1.1
 
-# Create system user for Elasticsearch.
+# Install Elasticsearch.
+WORKDIR /tmp
 RUN set -x \
-  && useradd -m -s /bin/bash -d /usr/local/lib/elasticsearch elasticsearch
-
-# Download and extract ElasticSearch .
-COPY elasticsearch-8.10.3-linux-x86_64.tar.gz ./
-RUN set -x \
-  && tar xzf elasticsearch-8.10.3-linux-x86_64.tar.gz > /dev/null \
+  && wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.10.3-linux-x86_64.tar.gz --quiet \
+  && wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.10.3-linux-x86_64.tar.gz.sha512 --quiet \
+  && shasum -a 512 -c elasticsearch-8.10.3-linux-x86_64.tar.gz.sha512 \
+  && tar xvzf elasticsearch-8.10.3-linux-x86_64.tar.gz > /dev/null \
+  && mkdir /usr/local/lib/elasticsearch \
   && cp -r elasticsearch-8.10.3/* /usr/local/lib/elasticsearch/ \
-  && chown -R elasticsearch:elasticsearch /usr/local/lib/elasticsearch \
   && rm -rf elasticsearch-8.10.3*
 
 # Create Elasticsearch directories.
@@ -18,9 +17,12 @@ RUN set -x \
   && mkdir /opt/elasticsearch \
   && mkdir /opt/elasticsearch/data \
   && mkdir /opt/elasticsearch/log \
+  && mkdir /opt/elasticsearch/conf \
+  && mkdir /opt/elasticsearch/script \
   && mkdir /opt/elasticsearch/system \
-  && touch /opt/elasticsearch/system/process.pid \
-  && chown -R elasticsearch:elasticsearch /opt/elasticsearch \
+  && touch /opt/elasticsearch/system/node.pid \
+  && touch /opt/elasticsearch/system/supervisor.ini \
+  && ln -s /opt/elasticsearch/system/supervisor.ini /etc/supervisord.d/elasticsearch.ini \
   && history -c
 
 # Set default work directory.

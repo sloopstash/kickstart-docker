@@ -7,11 +7,11 @@ RUN yum install -y tcl
 # Download and extract Redis.
 WORKDIR /tmp
 RUN set -x \
-  && wget http://download.redis.io/releases/redis-7.2.1.tar.gz --quiet \
-  && tar xvzf redis-7.2.1.tar.gz > /dev/null
+  && wget http://download.redis.io/releases/redis-4.0.9.tar.gz --quiet \
+  && tar xvzf redis-4.0.9.tar.gz > /dev/null
 
 # Compile and install Redis.
-WORKDIR redis-7.2.1
+WORKDIR redis-4.0.9
 RUN set -x \
   && make distclean \
   && make \
@@ -20,7 +20,7 @@ RUN set -x \
 # Create Redis directories.
 WORKDIR ../
 RUN set -x \
-  && rm -rf redis-7.2.1* \
+  && rm -rf redis-4.0.9* \
   && mkdir /opt/redis \
   && mkdir /opt/redis/data \
   && mkdir /opt/redis/log \

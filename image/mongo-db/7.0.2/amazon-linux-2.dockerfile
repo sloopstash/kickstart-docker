@@ -1,19 +1,23 @@
 # Docker image to use.
-FROM sloopstash/base-amazon-linux-2:v1.1.1
+FROM sloopstash/base:v1.1.1
 
-# Switch work directory.
+# Install system packages.
+RUN yum install -y libcurl openssl xz-libs
+
+# Install MongoDB.
 WORKDIR /tmp
-
-# Download extract and install MongoDB and Mongo shell.
 RUN set -x \
   && wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-amazon2-7.0.2.tgz --quiet \
   && tar xvzf mongodb-linux-x86_64-amazon2-7.0.2.tgz > /dev/null \
-  && cp -r mongodb-linux-x86_64-amazon2-7.0.2/bin/* /usr/local/bin/ \
-  && rm -rf mongodb-linux-x86_64-amazon2-7.0.2* \
+  && mv mongodb-linux-x86_64-amazon2-7.0.2/bin/* /usr/local/bin/ \
+  && rm -rf mongodb-linux-x86_64-amazon2-7.0.2*
+
+# Install MongoDB shell.
+RUN set -x \
   && wget https://downloads.mongodb.com/compass/mongosh-2.1.5-linux-x64.tgz --quiet \
   && tar xvzf mongosh-2.1.5-linux-x64.tgz > /dev/null \
-  && cp -r mongosh-2.1.5-linux-x64/bin/* /usr/local/bin/ \
-  && rm -rf mongosh-2.1.5-linux-x64 
+  && mv mongosh-2.1.5-linux-x64/bin/* /usr/local/bin/ \
+  && rm -rf mongosh-2.1.5-linux-x64*
 
 # Create MongoDB directories.
 RUN set -x \
@@ -21,6 +25,11 @@ RUN set -x \
   && mkdir /opt/mongo-db/data \
   && mkdir /opt/mongo-db/log \
   && mkdir /opt/mongo-db/conf \
+  && mkdir /opt/mongo-db/script \
+  && mkdir /opt/mongo-db/system \
+  && touch /opt/mongo-db/system/server.pid \
+  && touch /opt/mongo-db/system/supervisor.ini \
+  && ln -s /opt/mongo-db/system/supervisor.ini /etc/supervisord.d/mongo-db.ini \
   && history -c
 
 # Set default work directory.
