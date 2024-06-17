@@ -1,15 +1,15 @@
 # Docker image to use.
-FROM sloopstash/alma-linux-8:v1.1.1
+FROM almalinux:8
 
 # Install system packages.
 RUN set -x \
   && dnf update -y \
-  && dnf install -y wget vim net-tools gcc make tar git unzip sysstat tree initscripts bind-utils nc nmap  
+  && dnf install -y epel-release \
+  && dnf install -y wget vim net-tools gcc make tar git unzip sysstat tree initscripts bind-utils nc nmap logrotate crontabs
 
 # Install Supervisor.
 RUN set -x \
-  && dnf -y install epel-release \
-  && dnf -y install supervisor \
+  && dnf install -y supervisor \
   && history -c
 
 # Set default work directory.

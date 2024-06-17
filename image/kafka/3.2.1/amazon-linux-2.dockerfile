@@ -24,6 +24,9 @@ RUN set -x \
   && mkdir /opt/kafka/conf \
   && mkdir /opt/kafka/script \
   && mkdir /opt/kafka/system \
+  && touch /opt/kafka/system/node.pid \
+  && touch /opt/kafka/system/supervisor.ini \
+  && ln -s /opt/kafka/system/supervisor.ini /etc/supervisord.d/kafka.ini \
   && history -c
 
 # Set default work directory.

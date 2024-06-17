@@ -16,6 +16,9 @@ RUN set -x \
   && mkdir /opt/app \
   && mkdir /opt/app/source \
   && mkdir /opt/app/log \
+  && mkdir /opt/app/system \
+  && touch /opt/app/system/supervisor.ini \
+  && ln -s /opt/app/system/supervisor.ini /etc/supervisord.d/app.ini \
   && history -c
 
 # Set default work directory.

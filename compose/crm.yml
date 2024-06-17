@@ -7,14 +7,14 @@ services:
     volumes:
       - redis-data:/opt/redis/data
       - redis-log:/opt/redis/log
-      - ../supervisor/conf/server.conf:/etc/supervisord.conf
-      - ../redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/etc/supervisord.d/redis.ini
-      - ../redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/redis.conf
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/opt/redis/system/supervisor.ini
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/server.conf:/opt/redis/conf/server.conf
     networks:
       common:
         ipv4_address: ${CRM_REDIS_IP}
   app:
-    image: sloopstash/python:v2.7    
+    image: sloopstash/python:v2.7
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
@@ -22,8 +22,8 @@ services:
     volumes:
       - ${CRM_APP_SOURCE}:/opt/app/source
       - app-log:/opt/app/log
-      - ../supervisor/conf/server.conf:/etc/supervisord.conf
-      - ../crm/app/conf/supervisor.ini:/etc/supervisord.d/app.ini
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/_stack/crm/app/conf/supervisor.ini:/opt/app/system/supervisor.ini
     depends_on:
       - redis
     networks:
@@ -38,10 +38,10 @@ services:
     volumes:
       - ${CRM_APP_SOURCE}:/opt/app/source
       - nginx-log:/opt/nginx/log
-      - ../supervisor/conf/server.conf:/etc/supervisord.conf
-      - ../nginx/${CRM_NGINX_VERSION}/conf/supervisor.ini:/etc/supervisord.d/nginx.ini
-      - ../nginx/${CRM_NGINX_VERSION}/conf/server.conf:/etc/nginx/nginx.conf
-      - ../crm/app/conf/nginx.conf:/etc/nginx/conf.d/app.conf
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/nginx/${CRM_NGINX_VERSION}/conf/supervisor.ini:/opt/nginx/system/supervisor.ini
+      - ${HOME_DIR}/workload/nginx/${CRM_NGINX_VERSION}/conf/server.conf:/opt/nginx/conf/server.conf
+      - ${HOME_DIR}/_stack/crm/nginx/conf/app.conf:/opt/nginx/conf/app.conf
     depends_on:
       - app
     networks:
