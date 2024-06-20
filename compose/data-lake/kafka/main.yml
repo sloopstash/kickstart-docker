@@ -1,0 +1,136 @@
+version: '3.8'
+services:
+  kafka-controller-1:
+    image: sloopstash/kafka:v3.2.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    environment:
+      - NODE_ID=1
+    volumes:
+      - kafka-controller-1-data:/opt/kafka/data
+      - kafka-controller-1-log:/opt/kafka/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/controller/conf/supervisor.ini:/opt/kafka/system/supervisor.ini
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/controller/conf/server.conf:/opt/kafka/conf/server-reference.conf
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/controller/script:/opt/kafka/script 
+    networks:
+      - common
+  kafka-controller-2:
+    image: sloopstash/kafka:v3.2.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    environment:
+      - NODE_ID=2
+    volumes:
+      - kafka-controller-2-data:/opt/kafka/data
+      - kafka-controller-2-log:/opt/kafka/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/controller/conf/supervisor.ini:/opt/kafka/system/supervisor.ini
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/controller/conf/server.conf:/opt/kafka/conf/server-reference.conf
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/controller/script:/opt/kafka/script
+    networks:
+      - common
+  kafka-controller-3:
+    image: sloopstash/kafka:v3.2.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    environment:
+      - NODE_ID=3
+    volumes:
+      - kafka-controller-3-data:/opt/kafka/data
+      - kafka-controller-3-log:/opt/kafka/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/controller/conf/supervisor.ini:/opt/kafka/system/supervisor.ini
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/controller/conf/server.conf:/opt/kafka/conf/server-reference.conf
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/controller/script:/opt/kafka/script
+    networks:
+      - common
+  kafka-broker-1:
+    image: sloopstash/kafka:v3.2.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    environment:
+      - NODE_ID=4
+    volumes:
+      - kafka-broker-1-data:/opt/kafka/data
+      - kafka-broker-1-log:/opt/kafka/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/broker/conf/supervisor.ini:/opt/kafka/system/supervisor.ini
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/broker/conf/server.conf:/opt/kafka/conf/server-reference.conf
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/broker/script:/opt/kafka/script
+    depends_on:
+      - kafka-controller-1
+      - kafka-controller-2
+      - kafka-controller-3
+    networks:
+      - common
+  kafka-broker-2:
+    image: sloopstash/kafka:v3.2.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    environment:
+      - NODE_ID=5
+    volumes:
+      - kafka-broker-2-data:/opt/kafka/data
+      - kafka-broker-2-log:/opt/kafka/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/broker/conf/supervisor.ini:/opt/kafka/system/supervisor.ini
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/broker/conf/server.conf:/opt/kafka/conf/server-reference.conf
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/broker/script:/opt/kafka/script
+    depends_on:
+      - kafka-controller-1
+      - kafka-controller-2
+      - kafka-controller-3
+    networks:
+      - common
+  kafka-broker-3:
+    image: sloopstash/kafka:v3.2.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    environment:
+      - NODE_ID=6
+    volumes:
+      - kafka-broker-3-data:/opt/kafka/data
+      - kafka-broker-3-log:/opt/kafka/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/broker/conf/supervisor.ini:/opt/kafka/system/supervisor.ini
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/broker/conf/server.conf:/opt/kafka/conf/server-reference.conf
+      - ${HOME_DIR}/workload/kafka/${DATA_LAKE_KAFKA_VERSION}/broker/script:/opt/kafka/script
+    depends_on:
+      - kafka-controller-1
+      - kafka-controller-2
+      - kafka-controller-3
+    networks:
+      - common
+volumes:
+  kafka-controller-1-data:
+    driver: local
+  kafka-controller-1-log:
+    driver: local
+  kafka-controller-2-data:
+    driver: local
+  kafka-controller-2-log:
+    driver: local
+  kafka-controller-3-data:
+    driver: local
+  kafka-controller-3-log:
+    driver: local
+  kafka-broker-1-data:
+    driver: local
+  kafka-broker-1-log:
+    driver: local
+  kafka-broker-2-data:
+    driver: local
+  kafka-broker-2-log:
+    driver: local
+  kafka-broker-3-data:
+    driver: local
+  kafka-broker-3-log:
+    driver: local
+networks:
+  common:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${DATA_LAKE_NETWORK}
