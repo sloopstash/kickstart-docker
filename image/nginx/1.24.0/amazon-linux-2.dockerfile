@@ -6,8 +6,7 @@ WORKDIR /tmp
 RUN set -x \
   && wget https://nginx.org/packages/rhel/7/x86_64/RPMS/nginx-1.24.0-1.el7.ngx.x86_64.rpm --quiet \
   && yum install -y nginx-1.24.0-1.el7.ngx.x86_64.rpm \
-  && rm -f nginx-1.24.0-1.el7.ngx.x86_64.rpm \
-  && rm -f /etc/nginx/nginx.conf
+  && rm -f nginx-1.24.0-1.el7.ngx.x86_64.rpm
 
 # Create App and Nginx directories.
 RUN set -x \
@@ -24,7 +23,6 @@ RUN set -x \
   && touch /opt/nginx/conf/app.conf \
   && touch /opt/nginx/system/server.pid \
   && touch /opt/nginx/system/supervisor.ini \
-  && ln -s /opt/nginx/conf/server.conf /etc/nginx/nginx.conf \
   && ln -s /opt/nginx/conf/app.conf /etc/nginx/conf.d/app.conf \
   && ln -s /opt/nginx/system/supervisor.ini /etc/supervisord.d/nginx.ini \
   && history -c
