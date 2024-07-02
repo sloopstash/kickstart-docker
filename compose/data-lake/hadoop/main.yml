@@ -1,0 +1,112 @@
+version: '3.8'
+services:
+  hadoop-master-1:
+    image: sloopstash/hadoop:v2.10.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    environment:
+      - JAVA_HOME=/usr/java/jdk1.8.0_131/jre
+      - HADOOP_HOME=/usr/local/lib/hadoop
+      - HADOOP_CONF_DIR=/usr/local/lib/hadoop/etc/hadoop
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/java/jdk1.8.0_131/jre/bin:/usr/local/lib/hadoop/bin
+    volumes:
+      - hadoop-master-1-data:/opt/hadoop/data
+      - hadoop-master-1-log:/opt/hadoop/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/master/supervisor.ini:/opt/hadoop/system/supervisor.ini
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/master/core-site.xml:/opt/hadoop/conf/core-site.xml
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/master/hdfs-site.xml:/opt/hadoop/conf/hdfs-site.xml
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/hadoop-env.sh:/opt/hadoop/conf/hadoop-env.sh
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/script/master:/opt/hadoop/script 
+    networks:
+      - common
+  hadoop-slave-1:
+    image: sloopstash/hadoop:v2.10.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    environment:
+      - JAVA_HOME=/usr/java/jdk1.8.0_131/jre
+      - HADOOP_HOME=/usr/local/lib/hadoop
+      - HADOOP_CONF_DIR=/usr/local/lib/hadoop/etc/hadoop
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/java/jdk1.8.0_131/jre/bin:/usr/local/lib/hadoop/bin
+    volumes:
+      - hadoop-slave-1-data:/opt/hadoop/data
+      - hadoop-slave-1-log:/opt/hadoop/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/slave/supervisor.ini:/opt/hadoop/system/supervisor.ini
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/slave/core-site.xml:/opt/hadoop/conf/core-site.xml
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/slave/hdfs-site.xml:/opt/hadoop/conf/hdfs-site.xml
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/hadoop-env.sh:/opt/hadoop/conf/hadoop-env.sh
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/script/slave:/opt/hadoop/script
+    depends_on:
+      - hadoop-master-1
+    networks:
+      - common
+  hadoop-slave-2:
+    image: sloopstash/hadoop:v2.10.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    environment:
+      - JAVA_HOME=/usr/java/jdk1.8.0_131/jre
+      - HADOOP_HOME=/usr/local/lib/hadoop
+      - HADOOP_CONF_DIR=/usr/local/lib/hadoop/etc/hadoop
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/java/jdk1.8.0_131/jre/bin:/usr/local/lib/hadoop/bin
+    volumes:
+      - hadoop-slave-2-data:/opt/hadoop/data
+      - hadoop-slave-2-log:/opt/hadoop/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/slave/supervisor.ini:/opt/hadoop/system/supervisor.ini
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/slave/core-site.xml:/opt/hadoop/conf/core-site.xml
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/slave/hdfs-site.xml:/opt/hadoop/conf/hdfs-site.xml
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/hadoop-env.sh:/opt/hadoop/conf/hadoop-env.sh
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/script/slave:/opt/hadoop/script
+    depends_on:
+      - hadoop-master-1
+    networks:
+      - common
+  hadoop-slave-3:
+    image: sloopstash/hadoop:v2.10.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    environment:
+      - JAVA_HOME=/usr/java/jdk1.8.0_131/jre
+      - HADOOP_HOME=/usr/local/lib/hadoop
+      - HADOOP_CONF_DIR=/usr/local/lib/hadoop/etc/hadoop
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/java/jdk1.8.0_131/jre/bin:/usr/local/lib/hadoop/bin
+    volumes:
+      - hadoop-slave-3-data:/opt/hadoop/data
+      - hadoop-slave-3-log:/opt/hadoop/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/slave/supervisor.ini:/opt/hadoop/system/supervisor.ini
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/slave/core-site.xml:/opt/hadoop/conf/core-site.xml
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/slave/hdfs-site.xml:/opt/hadoop/conf/hdfs-site.xml
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/conf/hadoop-env.sh:/opt/hadoop/conf/hadoop-env.sh
+      - ${HOME_DIR}/workload/hadoop/${DATA_LAKE_HADOOP_VERSION}/script/slave:/opt/hadoop/script
+    depends_on:
+      - hadoop-master-1
+    networks:
+      - common
+volumes:
+  hadoop-master-1-data:
+    driver: local
+  hadoop-master-1-log:
+    driver: local
+  hadoop-slave-1-data:
+    driver: local
+  hadoop-slave-1-log:
+    driver: local
+  hadoop-slave-2-data:
+    driver: local
+  hadoop-slave-2-log:
+    driver: local
+  hadoop-slave-3-data:
+    driver: local
+  hadoop-slave-3-log:
+    driver: local
+networks:
+  common:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${DATA_LAKE_NETWORK}
