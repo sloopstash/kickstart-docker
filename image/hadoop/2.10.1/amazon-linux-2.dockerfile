@@ -25,8 +25,14 @@ RUN set -x \
   && mkdir /opt/hadoop/script \
   && mkdir /opt/hadoop/system \
   && mkdir /opt/hadoop/tmp \
+  && touch /opt/hadoop/conf/env.sh \
+  && touch /opt/hadoop/conf/core-site.xml \
+  && touch /opt/hadoop/conf/hdfs-site.xml \
   && touch /opt/hadoop/system/node.pid \
   && touch /opt/hadoop/system/supervisor.ini \
+  && ln -sf /opt/hadoop/conf/env.sh /usr/local/lib/hadoop/etc/hadoop/hadoop-env.sh \
+  && ln -sf /opt/hadoop/conf/core-site.xml /usr/local/lib/hadoop/etc/hadoop/core-site.xml \
+  && ln -sf /opt/hadoop/conf/hdfs-site.xml /usr/local/lib/hadoop/etc/hadoop/hdfs-site.xml \
   && ln -s /opt/hadoop/system/supervisor.ini /etc/supervisord.d/hadoop.ini \
   && history -c
 
