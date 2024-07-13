@@ -121,4 +121,4 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: ${DATA_LAKE_NETWORK}
+        - subnet: ${DATA_LAKE_HADOOP_NETWORK}
