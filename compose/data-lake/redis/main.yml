@@ -1,0 +1,156 @@
+version: '3.8'
+services:
+  redis-node-auto-1:
+    image: sloopstash/redis:v7.2.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - redis-data-cluster-auto-1:/opt/redis/data
+      - redis-log-cluster-auto-1:/opt/redis/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/cluster-server.conf:/opt/redis/conf/server.conf
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/redis-start-cluster.sh:/opt/redis/script/redis-start-cluster.sh
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/redis-node-1-supervisor.ini:/opt/redis/system/supervisor.ini
+    ports:
+      - "30001:3000"
+    networks:
+      redis-cluster-net-auto:
+        ipv4_address: 16.1.1.2
+
+  redis-node-auto-2:
+    image: sloopstash/redis:v7.2.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - redis-data-cluster-auto-2:/opt/redis/data
+      - redis-log-cluster-auto-2:/opt/redis/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/opt/redis/system/supervisor.ini
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/cluster-server.conf:/opt/redis/conf/server.conf
+    ports:
+      - "30002:3000"
+    depends_on:
+      - redis-node-auto-1
+    networks:
+      redis-cluster-net-auto:
+        ipv4_address: 16.1.1.3
+
+  redis-node-auto-3:
+    image: sloopstash/redis:v7.2.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - redis-data-cluster-auto-3:/opt/redis/data
+      - redis-log-cluster-auto-3:/opt/redis/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/opt/redis/system/supervisor.ini
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/cluster-server.conf:/opt/redis/conf/server.conf
+    ports:
+      - "30003:3000"
+    depends_on:
+      - redis-node-auto-1
+    networks:
+      redis-cluster-net-auto:
+        ipv4_address: 16.1.1.4
+
+  redis-node-auto-4:
+    image: sloopstash/redis:v7.2.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - redis-data-cluster-auto-4:/opt/redis/data
+      - redis-log-cluster-auto-4:/opt/redis/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/opt/redis/system/supervisor.ini
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/cluster-server.conf:/opt/redis/conf/server.conf
+    ports:
+      - "30004:3000"
+    depends_on:
+      - redis-node-auto-1
+    networks:
+      redis-cluster-net-auto:
+        ipv4_address: 16.1.1.5
+
+  redis-node-auto-5:
+    image: sloopstash/redis:v7.2.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - redis-data-cluster-auto-5:/opt/redis/data
+      - redis-log-cluster-auto-5:/opt/redis/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/opt/redis/system/supervisor.ini
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/cluster-server.conf:/opt/redis/conf/server.conf
+    ports:
+      - "30005:3000"
+    depends_on:
+      - redis-node-auto-1
+    networks:
+      redis-cluster-net-auto:
+        ipv4_address: 16.1.1.6
+
+  redis-node-auto-6:
+    image: sloopstash/redis:v7.2.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - redis-data-cluster-auto-6:/opt/redis/data
+      - redis-log-cluster-auto-6:/opt/redis/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/opt/redis/system/supervisor.ini
+      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/cluster-server.conf:/opt/redis/conf/server.conf
+    ports:
+      - "30006:3000"
+    depends_on:
+      - redis-node-auto-1
+    networks:
+      redis-cluster-net-auto:
+        ipv4_address: 16.1.1.7
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    restart: always
+    ports:
+      - "5000:5540"
+    volumes:
+      - redis-insight:/opt/redis/data
+    networks:
+      redis-cluster-net-auto:
+        ipv4_address: 16.1.1.10
+
+volumes:
+  redis-data-cluster-auto-1:
+    driver: local
+  redis-log-cluster-auto-1:
+    driver: local
+  redis-data-cluster-auto-2:
+    driver: local
+  redis-log-cluster-auto-2:
+    driver: local
+  redis-data-cluster-auto-3:
+    driver: local
+  redis-log-cluster-auto-3:
+    driver: local
+  redis-data-cluster-auto-4:
+    driver: local
+  redis-log-cluster-auto-4:
+    driver: local
+  redis-data-cluster-auto-5:
+    driver: local
+  redis-log-cluster-auto-5:
+    driver: local
+  redis-data-cluster-auto-6:
+    driver: local
+  redis-log-cluster-auto-6:
+    driver: local
+  redis-insight:
+    driver: local
+
+networks:
+  redis-cluster-net-auto:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${REDIS_SA_NETWORK_AUTO}
+
