@@ -1,5 +1,6 @@
 #!/bin/bash
 
+NODE_ID=$(( ${HOSTNAME:17} + 1))
 SERVER_REFERENCE_CONF=/opt/kafka/conf/server-reference.conf
 SERVER_CONF=/opt/kafka/conf/server.conf
 CLUSTER_ID="OKbXWnLxQI-iFjS3AFuIzw"
