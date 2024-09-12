@@ -12,6 +12,13 @@ RUN set -x \
   && mv mongodb-linux-x86_64-amazon2-4.4.4/bin/* /usr/local/bin/ \
   && rm -rf mongodb-linux-x86_64-amazon2-4.4.4*
 
+# Install MongoDB shell.
+RUN set -x \
+  && wget https://downloads.mongodb.com/compass/mongosh-2.1.5-linux-x64.tgz --quiet \
+  && tar xvzf mongosh-2.1.5-linux-x64.tgz > /dev/null \
+  && mv mongosh-2.1.5-linux-x64/bin/* /usr/local/bin/ \
+  && rm -rf mongosh-2.1.5-linux-x64*
+
 # Create MongoDB directories.
 RUN set -x \
   && mkdir /opt/mongo-db \
