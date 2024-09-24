@@ -10,10 +10,10 @@ done
 
 # Initialize the replica set
 mongo --eval "rs.initiate({
-  \"_id\": \"replica_cluster\",
+  \"_id\": \"main\",
   \"members\": [
-    { \"_id\": 0, \"host\": \"mongo-db-node-1:27017\" },
-    { \"_id\": 1, \"host\": \"mongo-db-node-2:27017\" },
-    { \"_id\": 2, \"host\": \"mongo-db-node-3:27017\" }
+    { \"_id\": 1, \"host\": \"mongo-db-1:7000\" },
+    { \"_id\": 2, \"host\": \"mongo-db-2:7000\" },
+    { \"_id\": 3, \"host\": \"mongo-db-3:7000\" }
   ]
 })"

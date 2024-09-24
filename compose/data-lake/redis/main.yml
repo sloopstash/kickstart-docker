@@ -5,140 +5,116 @@ services:
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
-      - redis-data-1:/opt/redis/data
-      - redis-log-1:/opt/redis/log
+      - redis-1-data:/opt/redis/data
+      - redis-1-log:/opt/redis/log
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/script:/opt/redis/script
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
-      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/cluster/server.conf:/opt/redis/conf/server.conf
-      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/script/start.sh:/opt/redis/script/start.sh
-      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/redis-1-supervisor.ini:/opt/redis/system/supervisor.ini
-    ports:
-      - "30001:3000"
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/supervisor.ini:/opt/redis/system/supervisor.ini
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/server.conf:/opt/redis/conf/server.conf
+    depends_on:
+      - redis-1
     networks:
       - common
-
   redis-2:
     image: sloopstash/redis:v7.2.1
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
-      - redis-data-2:/opt/redis/data
-      - redis-log-2:/opt/redis/log
+      - redis-2-data:/opt/redis/data
+      - redis-2-log:/opt/redis/log
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/script:/opt/redis/script
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
-      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/opt/redis/system/supervisor.ini
-      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/cluster/server.conf:/opt/redis/conf/server.conf
-    ports:
-      - "30002:3000"
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/supervisor.ini:/opt/redis/system/supervisor.ini
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/server.conf:/opt/redis/conf/server.conf
     depends_on:
       - redis-1
     networks:
       - common
-
   redis-3:
     image: sloopstash/redis:v7.2.1
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
-      - redis-data-3:/opt/redis/data
-      - redis-log-3:/opt/redis/log
+      - redis-3-data:/opt/redis/data
+      - redis-3-log:/opt/redis/log
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/script:/opt/redis/script
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
-      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/opt/redis/system/supervisor.ini
-      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/cluster/server.conf:/opt/redis/conf/server.conf
-    ports:
-      - "30003:3000"
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/supervisor.ini:/opt/redis/system/supervisor.ini
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/server.conf:/opt/redis/conf/server.conf
     depends_on:
       - redis-1
     networks:
       - common
-
   redis-4:
     image: sloopstash/redis:v7.2.1
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
-      - redis-data-4:/opt/redis/data
-      - redis-log-4:/opt/redis/log
+      - redis-4-data:/opt/redis/data
+      - redis-4-log:/opt/redis/log
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/script:/opt/redis/script
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
-      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/opt/redis/system/supervisor.ini
-      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/cluster/server.conf:/opt/redis/conf/server.conf
-    ports:
-      - "30004:3000"
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/supervisor.ini:/opt/redis/system/supervisor.ini
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/server.conf:/opt/redis/conf/server.conf
     depends_on:
       - redis-1
     networks:
       - common
-
   redis-5:
     image: sloopstash/redis:v7.2.1
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
-      - redis-data-5:/opt/redis/data
-      - redis-log-5:/opt/redis/log
+      - redis-5-data:/opt/redis/data
+      - redis-5-log:/opt/redis/log
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/script:/opt/redis/script
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
-      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/opt/redis/system/supervisor.ini
-      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/cluster/server.conf:/opt/redis/conf/server.conf
-    ports:
-      - "30005:3000"
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/supervisor.ini:/opt/redis/system/supervisor.ini
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/server.conf:/opt/redis/conf/server.conf
     depends_on:
       - redis-1
     networks:
       - common
-
   redis-6:
     image: sloopstash/redis:v7.2.1
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
-      - redis-data-6:/opt/redis/data
-      - redis-log-6:/opt/redis/log
+      - redis-6-data:/opt/redis/data
+      - redis-6-log:/opt/redis/log
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/script:/opt/redis/script
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
-      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/supervisor.ini:/opt/redis/system/supervisor.ini
-      - ${HOME_DIR}/workload/redis/${CRM_REDIS_VERSION}/conf/cluster/server.conf:/opt/redis/conf/server.conf
-    ports:
-      - "30006:3000"
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/supervisor.ini:/opt/redis/system/supervisor.ini
+      - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/server.conf:/opt/redis/conf/server.conf
     depends_on:
       - redis-1
     networks:
       - common
-
-  redis-insight:
-    image: redis/redisinsight:latest
-    restart: always
-    ports:
-      - "5000:5540"
-    volumes:
-      - redis-insight:/opt/redis/data
-    networks:
-      - common
-
 volumes:
-  redis-data-1:
+  redis-1-data:
     driver: local
-  redis-log-1:
+  redis-1-log:
     driver: local
-  redis-data-2:
+  redis-2-data:
     driver: local
-  redis-log-2:
+  redis-2-log:
     driver: local
-  redis-data-3:
+  redis-3-data:
     driver: local
-  redis-log-3:
+  redis-3-log:
     driver: local
-  redis-data-4:
+  redis-4-data:
     driver: local
-  redis-log-4:
+  redis-4-log:
     driver: local
-  redis-data-5:
+  redis-5-data:
     driver: local
-  redis-log-5:
+  redis-5-log:
     driver: local
-  redis-data-6:
+  redis-6-data:
     driver: local
-  redis-log-6:
+  redis-6-log:
     driver: local
-  redis-insight:
-    driver: local
-
 networks:
   common:
     driver: bridge
@@ -146,4 +122,3 @@ networks:
       driver: default
       config:
         - subnet: ${DATA_LAKE_REDIS_NETWORK}
-
