@@ -1,0 +1,68 @@
+version: '3.8'
+services:
+  postgresql:
+    image: sloopstash/aml-2-postgresql-16.4:v1.1.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-pgpassword}
+    volumes:
+      - postgresql-data:/opt/postgresql/data
+      - postgresql-log:/opt/postgresql/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/postgresql/${NTM_POSTGRESQL_VERSION}/conf/supervisor.ini:/opt/postgresql/system/supervisor.ini
+      - ${HOME_DIR}/workload/postgresql/${NTM_POSTGRESQL_VERSION}/conf/server.conf:/opt/postgresql/conf/server.conf
+    networks:
+      common:
+        ipv4_address: ${NTM_POSTGRESQL_IP}
+  app:
+    image: sloopstash/aml-2-ruby-3.3.5:v1.1.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    environment:
+      - STATIC_ENDPOINT=http://app-static.ntm.${EXTERNAL_DOMAIN}:${NTM_NGINX_PORT}
+    volumes:
+      - ${NTM_APP_SOURCE}:/opt/app/source
+      - app-log:/opt/app/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/_stack/ntm/app/conf/supervisor.ini:/opt/app/system/supervisor.ini
+    depends_on:
+      - postgresql
+    networks:
+      common:
+        ipv4_address: ${NTM_APP_IP}
+  nginx:
+    image: sloopstash/aml-2-nginx:v1.24.0:v1.1.1
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    ports:
+      - "${NTM_NGINX_PORT}:80"
+    volumes:
+      - ${ntm_APP_SOURCE}:/opt/app/source
+      - nginx-log:/opt/nginx/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/nginx/${NTM_NGINX_VERSION}/conf/supervisor.ini:/opt/nginx/system/supervisor.ini
+      - ${HOME_DIR}/workload/nginx/${NTM_NGINX_VERSION}/conf/server.conf:/opt/nginx/conf/server.conf
+      - ${HOME_DIR}/_stack/ntm/nginx/conf/app.conf:/opt/nginx/conf/app.conf
+    depends_on:
+      - app
+    networks:
+      common:
+        ipv4_address: ${NTM_NGINX_IP}
+volumes:
+  postgresql-data:
+    driver: local
+  postgresql-log:
+    driver: local
+  app-log:
+    driver: local
+  nginx-log:
+    driver: local
+networks:
+  common:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${NTM_NETWORK}
