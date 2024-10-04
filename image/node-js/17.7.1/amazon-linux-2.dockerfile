@@ -12,10 +12,10 @@ RUN set -x \
   && mkdir /usr/local/lib/node-js \
   && cp -r node-v17.7.1-linux-x64/* /usr/local/lib/node-js/ \
   && rm -rf node-v17.7.1-linux-x64*
-
-# Install NodeJS packages.
 ENV PATH=/usr/local/lib/node-js/bin:$PATH
 ENV NODE_PATH=/usr/local/lib/node-js/lib/node_modules
+
+# Install NodeJS packages.
 RUN set -x \
    && npm install -g mongodb@3.6.5 \
    && npm install -g express@4.17.1 \
