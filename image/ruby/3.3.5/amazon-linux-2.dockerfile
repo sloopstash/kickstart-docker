@@ -3,6 +3,7 @@ FROM sloopstash/base:v1.1.1
 
 # Install system packages.
 RUN set -x \
+  && amazon-linux-extras enable postgresql14 \
   && yum install -y openssl-devel zlib-devel libyaml-devel libffi-devel postgresql-devel
 
 # Download and extract Ruby.
@@ -19,13 +20,14 @@ RUN set -x \
   && make install
 
 # Install Ruby packages.
+WORKDIR ../
+COPY Gemfile ./
 RUN set -x \
   && gem install bundler \
-  && gem install rails -v 7.2.1 \
-  && gem install pg -v 1.1.4
+  && bundle install \
+  && rm -f Gemfile*
 
 # Create App directories.
-WORKDIR ../
 RUN set -x \
   && rm -rf ruby-3.3.5* \
   && mkdir /opt/app \

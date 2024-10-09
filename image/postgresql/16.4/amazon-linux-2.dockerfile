@@ -4,6 +4,9 @@ FROM sloopstash/base:v1.1.1
 # Install system packages.
 RUN yum install -y zlib-devel libicu-devel readline-devel
 
+# Create system user for PostgreSQL.
+RUN useradd -m postgresql
+
 # Download and extract PostgreSQL.
 WORKDIR /tmp
 RUN set -x \
@@ -31,6 +34,7 @@ RUN set -x \
   && touch /opt/postgresql/system/server.pid \
   && touch /opt/postgresql/system/supervisor.ini \
   && ln -s /opt/postgresql/system/supervisor.ini /etc/supervisord.d/postgresql.ini \
+  && chown -R postgresql:postgresql /opt/postgresql \
   && history -c
 
 # Set default work directory.

@@ -9,6 +9,8 @@ services:
       - postgresql-log:/opt/postgresql/log
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
       - ${HOME_DIR}/workload/postgresql/${NTM_POSTGRESQL_VERSION}/conf/supervisor.ini:/opt/postgresql/system/supervisor.ini
+      - ${HOME_DIR}/workload/postgresql/${NTM_POSTGRESQL_VERSION}/conf/hba.conf:/opt/postgresql/conf/hba.conf
+      - ${HOME_DIR}/workload/postgresql/${NTM_POSTGRESQL_VERSION}/conf/ident.conf:/opt/postgresql/conf/ident.conf
       - ${HOME_DIR}/workload/postgresql/${NTM_POSTGRESQL_VERSION}/conf/server.conf:/opt/postgresql/conf/server.conf
     networks:
       common:
@@ -46,7 +48,7 @@ services:
       - app
     networks:
       common:
-        ipv4_address: ${NTM_NGINX_PORT}
+        ipv4_address: ${NTM_NGINX_IP}
 volumes:
   postgresql-data:
     driver: local
