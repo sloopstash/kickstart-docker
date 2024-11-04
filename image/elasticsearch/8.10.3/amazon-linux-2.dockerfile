@@ -1,6 +1,9 @@
 # Docker image to use.
 FROM sloopstash/base:v1.1.1
 
+# Install system packages.
+RUN yum install -y perl-Digest-SHA
+
 # Install Elasticsearch.
 WORKDIR /tmp
 RUN set -x \
