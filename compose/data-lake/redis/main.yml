@@ -11,8 +11,6 @@ services:
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
       - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/supervisor.ini:/opt/redis/system/supervisor.ini
       - ${HOME_DIR}/workload/redis/${DATA_LAKE_REDIS_VERSION}/cluster/conf/server.conf:/opt/redis/conf/server.conf
-    # depends_on:
-    #   - redis-1
     networks:
       - common
   redis-2:
