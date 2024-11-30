@@ -14,18 +14,21 @@ services:
       common:
         ipv4_address: ${CTM_MONGO_DB_IP}
   app:
-    image: sloopstash/node-js:v14.16.0
+    image: sloopstash/node-js:v17.7.1
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
       - STATIC_ENDPOINT=http://app-static.ctm.${EXTERNAL_DOMAIN}:${CTM_NGINX_PORT}
     volumes:
-      - ${CTM_APP_SOURCE}:/opt/app/source
+      - ${CTM_APP_SOURCE_FRONTEND}:/opt/app/source/frontend
+      - ${CTM_APP_SOURCE_BACKEND}:/opt/app/source/backend
       - app-log:/opt/app/log
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
       - ${HOME_DIR}/_stack/ctm/app/conf/supervisor.ini:/opt/app/system/supervisor.ini
     depends_on:
       - mongo-db
+    ports:
+      - "${CTM_APP_HOST_PORT}:${CTM_APP_CONTAINER_PORT}" 
     networks:
       common:
         ipv4_address: ${CTM_APP_IP}
@@ -34,9 +37,9 @@ services:
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     ports:
-      - "${CTM_NGINX_PORT}:80"
+      - "${CTM_NGINX_PORT}:${CTM_NGINX_DEFAULT_PORT}"
     volumes:
-      - ${CTM_APP_SOURCE}:/opt/app/source
+      - ${CTM_APP_SOURCE_FRONTEND}:/opt/app/source/frontend
       - nginx-log:/opt/nginx/log
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
       - ${HOME_DIR}/workload/nginx/${CTM_NGINX_VERSION}/conf/supervisor.ini:/opt/nginx/system/supervisor.ini
