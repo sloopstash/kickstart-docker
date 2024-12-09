@@ -25,25 +25,25 @@ RUN set -x \
   && history -c
 
 # Create necessary directories (frontend, backend)
-RUN mkdir -p /opt/app/source/frontend /opt/app/source/backend /opt/app/log /opt/app/system
+RUN mkdir -p /opt/app/source/view /opt/app/source /opt/app/log /opt/app/system
 
 # Copy frontend and backend package.json
-COPY frontend/package.json /opt/app/source/frontend/package.json
-COPY backend/package.json /opt/app/source/backend/package.json
+COPY ./view/package.json /opt/app/source/view/package.json
+COPY ./package.json /opt/app/source/package.json
 
 # Copy frontend source code
-COPY frontend/ /opt/app/source/frontend/
+COPY view/ /opt/app/source/view/
 
 # Install frontend dependencies and build
-WORKDIR /opt/app/source/frontend
+WORKDIR /opt/app/source/view
 RUN npm install \
   && npm run build
 
 # Copy backend source code
-COPY backend/ /opt/app/source/backend/
+COPY ./ /opt/app/source/
 
 # Install backend dependencies
-WORKDIR /opt/app/source/backend
+WORKDIR /opt/app/source
 RUN npm install
 
 # Set default work directory.

@@ -20,8 +20,8 @@ services:
     environment:
       - STATIC_ENDPOINT=http://app-static.ctm.${EXTERNAL_DOMAIN}:${CTM_NGINX_PORT}
     volumes:
-      - ${CTM_APP_SOURCE_FRONTEND}:/opt/app/source/frontend
-      - ${CTM_APP_SOURCE_BACKEND}:/opt/app/source/backend
+      - ${CTM_APP_SOURCE_FRONTEND}:/opt/app/source/view
+      - ${CTM_APP_SOURCE_BACKEND}:/opt/app/source
       - app-log:/opt/app/log
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
       - ${HOME_DIR}/_stack/ctm/app/conf/supervisor.ini:/opt/app/system/supervisor.ini
@@ -39,7 +39,7 @@ services:
     ports:
       - "${CTM_NGINX_PORT}:${CTM_NGINX_DEFAULT_PORT}"
     volumes:
-      - ${CTM_APP_SOURCE_FRONTEND}:/opt/app/source/frontend
+      - ${CTM_APP_SOURCE_FRONTEND}:/opt/app/source/view
       - nginx-log:/opt/nginx/log
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
       - ${HOME_DIR}/workload/nginx/${CTM_NGINX_VERSION}/conf/supervisor.ini:/opt/nginx/system/supervisor.ini
