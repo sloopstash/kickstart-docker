@@ -3,7 +3,7 @@ FROM sloopstash/base:v1.1.1
 
 # Install Python.
 RUN set -x \
-  && yum install python-2.7.18 python-devel python-pip python-setuptools
+  && yum install -y python-2.7.18 python-devel python-pip python-setuptools
 
 # Install Python packages.
 RUN set -x \

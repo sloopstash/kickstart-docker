@@ -4,8 +4,14 @@ FROM sloopstash/base:v1.1.1
 # Install system packages.
 RUN yum install -y xz
 
-# Install NodeJS.
+# Install JQ.
 WORKDIR /tmp
+RUN set -x \
+  && wget https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux-amd64 --quiet \
+  && mv jq-linux-amd64 /usr/local/bin/jq \
+  && chmod +x /usr/local/bin/jq
+
+# Install NodeJS.
 RUN set -x \
   && wget https://nodejs.org/dist/v14.16.0/node-v14.16.0-linux-x64.tar.xz --quiet \
   && tar xvJf node-v14.16.0-linux-x64.tar.xz > /dev/null \
@@ -16,10 +22,10 @@ ENV PATH=/usr/local/lib/node-js/bin:$PATH
 ENV NODE_PATH=/usr/local/lib/node-js/lib/node_modules
 
 # Install NodeJS packages.
+COPY package.json ./
 RUN set -x \
-  && npm install -g mongodb@3.6.5 \
-  && npm install -g express@4.17.1 \
-  && npm install -g yargs@17.7.2
+  && npm install -g $(jq -r '.dependencies | to_entries | map("\(.key)@\(.value)") | join(" ")' package.json) \
+  && rm -f package.json
 
 # Create App directories.
 RUN set -x \
