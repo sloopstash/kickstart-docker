@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   postgresql:
-    image: sloopstash/postgresql:v16.4
+    image: sloopstash/postgresql:v${NTM_POSTGRESQL_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -16,7 +16,7 @@ services:
       common:
         ipv4_address: ${NTM_POSTGRESQL_IP}
   app:
-    image: sloopstash/ruby:v3.3.5
+    image: sloopstash/ruby:v${NTM_RUBY_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
@@ -32,7 +32,7 @@ services:
       common:
         ipv4_address: ${NTM_APP_IP}
   nginx:
-    image: sloopstash/nginx:v1.24.0
+    image: sloopstash/nginx:v${NTM_NGINX_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     ports:

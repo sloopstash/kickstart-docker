@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   mongo-db:
-    image: sloopstash/mongo-db:v4.4.4
+    image: sloopstash/mongo-db:v${CTM_MONGO_DB_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -14,7 +14,7 @@ services:
       common:
         ipv4_address: ${CTM_MONGO_DB_IP}
   app:
-    image: sloopstash/node-js:v17.7.1
+    image: sloopstash/node-js:v${CTM_NODE_JS_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
@@ -30,7 +30,7 @@ services:
       common:
         ipv4_address: ${CTM_APP_IP}
   nginx:
-    image: sloopstash/nginx:v1.14.0
+    image: sloopstash/nginx:v${CTM_NGINX_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     ports:

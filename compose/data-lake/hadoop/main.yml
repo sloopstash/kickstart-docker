@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   hadoop-name-1:
-    image: sloopstash/hadoop:v2.10.1
+    image: sloopstash/hadoop:v${DATA_LAKE_HADOOP_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
@@ -22,7 +22,7 @@ services:
     networks:
       - common
   hadoop-data-1:
-    image: sloopstash/hadoop:v2.10.1
+    image: sloopstash/hadoop:v${DATA_LAKE_HADOOP_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
@@ -45,7 +45,7 @@ services:
     networks:
       - common
   hadoop-data-2:
-    image: sloopstash/hadoop:v2.10.1
+    image: sloopstash/hadoop:v${DATA_LAKE_HADOOP_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
@@ -68,7 +68,7 @@ services:
     networks:
       - common
   hadoop-data-3:
-    image: sloopstash/hadoop:v2.10.1
+    image: sloopstash/hadoop:v${DATA_LAKE_HADOOP_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:

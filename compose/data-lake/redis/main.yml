@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   redis-1:
-    image: sloopstash/redis:v7.2.1
+    image: sloopstash/redis:v${DATA_LAKE_REDIS_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -14,7 +14,7 @@ services:
     networks:
       - common
   redis-2:
-    image: sloopstash/redis:v7.2.1
+    image: sloopstash/redis:v${DATA_LAKE_REDIS_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -29,7 +29,7 @@ services:
     networks:
       - common
   redis-3:
-    image: sloopstash/redis:v7.2.1
+    image: sloopstash/redis:v${DATA_LAKE_REDIS_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -44,7 +44,7 @@ services:
     networks:
       - common
   redis-4:
-    image: sloopstash/redis:v7.2.1
+    image: sloopstash/redis:v${DATA_LAKE_REDIS_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -59,7 +59,7 @@ services:
     networks:
       - common
   redis-5:
-    image: sloopstash/redis:v7.2.1
+    image: sloopstash/redis:v${DATA_LAKE_REDIS_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -74,7 +74,7 @@ services:
     networks:
       - common
   redis-6:
-    image: sloopstash/redis:v7.2.1
+    image: sloopstash/redis:v${DATA_LAKE_REDIS_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:

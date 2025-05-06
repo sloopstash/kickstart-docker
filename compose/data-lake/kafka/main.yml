@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   kafka-controller-1:
-    image: sloopstash/kafka:v3.2.1
+    image: sloopstash/kafka:v${DATA_LAKE_KAFKA_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
@@ -16,7 +16,7 @@ services:
     networks:
       - common
   kafka-controller-2:
-    image: sloopstash/kafka:v3.2.1
+    image: sloopstash/kafka:v${DATA_LAKE_KAFKA_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
@@ -31,7 +31,7 @@ services:
     networks:
       - common
   kafka-controller-3:
-    image: sloopstash/kafka:v3.2.1
+    image: sloopstash/kafka:v${DATA_LAKE_KAFKA_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
@@ -46,7 +46,7 @@ services:
     networks:
       - common
   kafka-broker-1:
-    image: sloopstash/kafka:v3.2.1
+    image: sloopstash/kafka:v${DATA_LAKE_KAFKA_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
@@ -65,7 +65,7 @@ services:
     networks:
       - common
   kafka-broker-2:
-    image: sloopstash/kafka:v3.2.1
+    image: sloopstash/kafka:v${DATA_LAKE_KAFKA_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
@@ -84,7 +84,7 @@ services:
     networks:
       - common
   kafka-broker-3:
-    image: sloopstash/kafka:v3.2.1
+    image: sloopstash/kafka:v${DATA_LAKE_KAFKA_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:

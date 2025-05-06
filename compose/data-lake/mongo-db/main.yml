@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   mongo-db-1:
-    image: sloopstash/mongo-db:v4.4.4
+    image: sloopstash/mongo-db:v${DATA_LAKE_MONGO_DB_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -14,7 +14,7 @@ services:
     networks:
       - common
   mongo-db-2:
-    image: sloopstash/mongo-db:v4.4.4
+    image: sloopstash/mongo-db:v${DATA_LAKE_MONGO_DB_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
@@ -29,7 +29,7 @@ services:
     networks:
       - common
   mongo-db-3:
-    image: sloopstash/mongo-db:v4.4.4
+    image: sloopstash/mongo-db:v${DATA_LAKE_MONGO_DB_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     volumes:
