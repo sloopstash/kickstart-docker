@@ -91,42 +91,42 @@ Vagrant.configure("2") do |config|
   SHELL
 
   # Define multiple virtual machines.
-  config.vm.define "sloopstash-dkr-swm-mgr-1" do |sloopstash_dkr_swm_mgr_1|
-    sloopstash_dkr_swm_mgr_1.vm.hostname = "sloopstash-dkr-swm-mgr-1"
-    sloopstash_dkr_swm_mgr_1.vm.network "private_network", ip: "192.168.201.51"
-    sloopstash_dkr_swm_mgr_1.vm.provider "vmware_fusion" do |vf|
+  config.vm.define "sloopstash-dkr-mgr-1" do |sloopstash_dkr_mgr_1|
+    sloopstash_dkr_mgr_1.vm.hostname = "sloopstash-dkr-mgr-1"
+    sloopstash_dkr_mgr_1.vm.network "private_network", ip: "192.168.201.51"
+    sloopstash_dkr_mgr_1.vm.provider "vmware_fusion" do |vf|
       vf.memory = "2048"
       vf.cpus = "1"
     end
   end
-  config.vm.define "sloopstash-dkr-swm-mgr-2" do |sloopstash_dkr_swm_mgr_2|
-    sloopstash_dkr_swm_mgr_2.vm.hostname = "sloopstash-dkr-swm-mgr-2"
-    sloopstash_dkr_swm_mgr_2.vm.network "private_network", ip: "192.168.201.52"
-    sloopstash_dkr_swm_mgr_2.vm.provider "vmware_fusion" do |vf|
+  config.vm.define "sloopstash-dkr-mgr-2" do |sloopstash_dkr_mgr_2|
+    sloopstash_dkr_mgr_2.vm.hostname = "sloopstash-dkr-mgr-2"
+    sloopstash_dkr_mgr_2.vm.network "private_network", ip: "192.168.201.52"
+    sloopstash_dkr_mgr_2.vm.provider "vmware_fusion" do |vf|
       vf.memory = "2048"
       vf.cpus = "1"
     end
   end
-  config.vm.define "sloopstash-dkr-swm-wkr-1" do |sloopstash_dkr_swm_wkr_1|
-    sloopstash_dkr_swm_wkr_1.vm.hostname = "sloopstash-dkr-swm-wkr-1"
-    sloopstash_dkr_swm_wkr_1.vm.network "private_network", ip: "192.168.201.54"
-    sloopstash_dkr_swm_wkr_1.vm.provider "vmware_fusion" do |vf|
+  config.vm.define "sloopstash-dkr-wkr-1" do |sloopstash_dkr_wkr_1|
+    sloopstash_dkr_wkr_1.vm.hostname = "sloopstash-dkr-wkr-1"
+    sloopstash_dkr_wkr_1.vm.network "private_network", ip: "192.168.201.54"
+    sloopstash_dkr_wkr_1.vm.provider "vmware_fusion" do |vf|
       vf.memory = "2048"
       vf.cpus = "1"
     end
   end
-  config.vm.define "sloopstash-dkr-swm-wkr-2" do |sloopstash_dkr_swm_wkr_2|
-    sloopstash_dkr_swm_wkr_2.vm.hostname = "sloopstash-dkr-swm-wkr-2"
-    sloopstash_dkr_swm_wkr_2.vm.network "private_network", ip: "192.168.201.55"
-    sloopstash_dkr_swm_wkr_2.vm.provider "vmware_fusion" do |vf|
+  config.vm.define "sloopstash-dkr-wkr-2" do |sloopstash_dkr_wkr_2|
+    sloopstash_dkr_wkr_2.vm.hostname = "sloopstash-dkr-wkr-2"
+    sloopstash_dkr_wkr_2.vm.network "private_network", ip: "192.168.201.55"
+    sloopstash_dkr_wkr_2.vm.provider "vmware_fusion" do |vf|
       vf.memory = "2048"
       vf.cpus = "1"
     end
   end
-  config.vm.define "sloopstash-dkr-swm-wkr-3" do |sloopstash_dkr_swm_wkr_3|
-    sloopstash_dkr_swm_wkr_3.vm.hostname = "sloopstash-dkr-swm-wkr-3"
-    sloopstash_dkr_swm_wkr_3.vm.network "private_network", ip: "192.168.201.56"
-    sloopstash_dkr_swm_wkr_3.vm.provider "vmware_fusion" do |vf|
+  config.vm.define "sloopstash-dkr-wkr-3" do |sloopstash_dkr_wkr_3|
+    sloopstash_dkr_wkr_3.vm.hostname = "sloopstash-dkr-wkr-3"
+    sloopstash_dkr_wkr_3.vm.network "private_network", ip: "192.168.201.56"
+    sloopstash_dkr_wkr_3.vm.provider "vmware_fusion" do |vf|
       vf.memory = "2048"
       vf.cpus = "1"
     end
