@@ -18,7 +18,7 @@ services:
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
-      - STATIC_ENDPOINT=http://app-static.ctm.${EXTERNAL_DOMAIN}:${CTM_NGINX_PORT}
+      - STATIC_ENDPOINT=app-static.ctm.${EXTERNAL_DOMAIN}:${CTM_NGINX_PORT}
     volumes:
       - ${CTM_APP_SOURCE}:/opt/app/source
       - app-log:/opt/app/log

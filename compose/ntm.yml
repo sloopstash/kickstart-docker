@@ -20,7 +20,7 @@ services:
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     environment:
-      - STATIC_ENDPOINT=http://app-static.ntm.${EXTERNAL_DOMAIN}:${NTM_NGINX_PORT}
+      - STATIC_ENDPOINT=app-static.ntm.${EXTERNAL_DOMAIN}:${NTM_NGINX_PORT}
     volumes:
       - ${NTM_APP_SOURCE}:/opt/app/source
       - app-log:/opt/app/log
