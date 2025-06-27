@@ -5,7 +5,9 @@ FROM almalinux:9
 RUN set -x \
   && dnf update -y \
   && dnf install -y epel-release \
-  && dnf install -y wget vim net-tools gcc make tar git unzip sysstat tree initscripts bind-utils nc nmap logrotate crontabs
+  && dnf install -y wget vim net-tools gcc make tar git unzip sysstat tree initscripts bind-utils nc nmap logrotate crontabs \
+  && dnf clean all \
+  && rm -rf /var/cache/dnf
 
 # Install Supervisor.
 RUN set -x \
