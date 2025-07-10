@@ -1,0 +1,100 @@
+version: '3.8'
+services:
+  ollama-deep-seek-r1:
+    image: sloopstash/ollama:v${AI_OLLAMA_VERSION}
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - ollama-deep-seek-r1-model:/opt/ollama/model
+      - ollama-deep-seek-r1-data:/opt/ollama/data
+      - ollama-deep-seek-r1-log:/opt/ollama/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/ollama/${AI_OLLAMA_VERSION}/deep-seek/r1/conf/supervisor.ini:/opt/ollama/system/supervisor.ini
+    networks:
+      - common
+  ollama-deep-seek-coder:
+    image: sloopstash/ollama:v${AI_OLLAMA_VERSION}
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - ollama-deep-seek-coder-model:/opt/ollama/model
+      - ollama-deep-seek-coder-data:/opt/ollama/data
+      - ollama-deep-seek-coder-log:/opt/ollama/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/ollama/${AI_OLLAMA_VERSION}/deep-seek/coder/conf/supervisor.ini:/opt/ollama/system/supervisor.ini
+    networks:
+      - common
+  ollama-gemma-2:
+    image: sloopstash/ollama:v${AI_OLLAMA_VERSION}
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - ollama-gemma-2-model:/opt/ollama/model
+      - ollama-gemma-2-data:/opt/ollama/data
+      - ollama-gemma-2-log:/opt/ollama/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/ollama/${AI_OLLAMA_VERSION}/gemma/2/conf/supervisor.ini:/opt/ollama/system/supervisor.ini
+    networks:
+      - common
+  ollama-llama-3.2:
+    image: sloopstash/ollama:v${AI_OLLAMA_VERSION}
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - ollama-llama-3.2-model:/opt/ollama/model
+      - ollama-llama-3.2-data:/opt/ollama/data
+      - ollama-llama-3.2-log:/opt/ollama/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/ollama/${AI_OLLAMA_VERSION}/llama/3.2/conf/supervisor.ini:/opt/ollama/system/supervisor.ini
+    networks:
+      - common
+  ollama-qwen-2.5-coder:
+    image: sloopstash/ollama:v${AI_OLLAMA_VERSION}
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - ollama-qwen-2.5-coder-model:/opt/ollama/model
+      - ollama-qwen-2.5-coder-data:/opt/ollama/data
+      - ollama-qwen-2.5-coder-log:/opt/ollama/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/ollama/${AI_OLLAMA_VERSION}/qwen/2.5/coder/conf/supervisor.ini:/opt/ollama/system/supervisor.ini
+    networks:
+      - common
+volumes:
+  ollama-deep-seek-r1-model:
+    driver: local
+  ollama-deep-seek-r1-data:
+    driver: local
+  ollama-deep-seek-r1-log:
+    driver: local
+  ollama-deep-seek-coder-model:
+    driver: local
+  ollama-deep-seek-coder-data:
+    driver: local
+  ollama-deep-seek-coder-log:
+    driver: local
+  ollama-gemma-2-model:
+    driver: local
+  ollama-gemma-2-data:
+    driver: local
+  ollama-gemma-2-log:
+    driver: local
+  ollama-llama-3.2-model:
+    driver: local
+  ollama-llama-3.2-data:
+    driver: local
+  ollama-llama-3.2-log:
+    driver: local
+  ollama-qwen-2.5-coder-model:
+    driver: local
+  ollama-qwen-2.5-coder-data:
+    driver: local
+  ollama-qwen-2.5-coder-log:
+    driver: local
+networks:
+  common:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${AI_OLLAMA_NETWORK}
