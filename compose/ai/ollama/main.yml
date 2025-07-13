@@ -60,6 +60,24 @@ services:
       - ${HOME_DIR}/workload/ollama/${AI_OLLAMA_VERSION}/qwen/2.5/coder/conf/supervisor.ini:/opt/ollama/system/supervisor.ini
     networks:
       - common
+  chroma:
+    image: sloopstash/chroma:v${AI_CHROMA_VERSION}
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - chroma-data:/opt/chroma/data
+      - chroma-log:/opt/chroma/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/chroma/${AI_CHROMA_VERSION}/conf/supervisor.ini:/opt/chroma/system/supervisor.ini
+      - ${HOME_DIR}/workload/chroma/${AI_CHROMA_VERSION}/conf/server.conf:/opt/chroma/conf/server.conf
+    depends_on:
+      - ollama-deep-seek-r1
+      - ollama-deep-seek-coder
+      - ollama-gemma-2
+      - ollama-llama-3.2
+      - ollama-qwen-2.5-coder
+    networks:
+      - common
 volumes:
   ollama-deep-seek-r1-model:
     driver: local
@@ -90,6 +108,10 @@ volumes:
   ollama-qwen-2.5-coder-data:
     driver: local
   ollama-qwen-2.5-coder-log:
+    driver: local
+  chroma-data:
+    driver: local
+  chroma-log:
     driver: local
 networks:
   common:
