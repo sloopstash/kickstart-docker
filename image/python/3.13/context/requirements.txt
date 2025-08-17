@@ -1,5 +1,5 @@
 supervisor
-Flask==3.1.0
+Flask==3.1.1
 redis==6.4.0
 pysqlite3-binary
 chromadb==1.0.17
