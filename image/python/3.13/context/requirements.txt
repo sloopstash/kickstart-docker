@@ -1,0 +1,7 @@
+supervisor
+Flask==3.1.0
+redis==6.4.0
+pysqlite3-binary
+chromadb==1.0.17
+ollama==0.5.3
+pytest==8.3.4
