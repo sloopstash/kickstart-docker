@@ -13,6 +13,9 @@
 # - pipeline.id: another_test
 #   queue.type: persisted
 #   path.config: "/tmp/logstash/*.config"
+- pipeline.id: beats
+  queue.type: persisted
+  path.config: /opt/logstash/conf/beats.conf
 #
 # Available options:
 #

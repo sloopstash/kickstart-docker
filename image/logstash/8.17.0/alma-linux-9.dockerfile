@@ -1,8 +1,11 @@
 # Docker image to use.
-FROM sloopstash/base:v1.1.1
+FROM sloopstash/alma-linux-9:v1.1.1
 
 # Install system packages.
-RUN yum install -y perl-Digest-SHA
+RUN set -x \
+  && dnf install -y perl-Digest-SHA \
+  && dnf clean all \
+  && rm -rf /var/cache/dnf
 
 # Install Logstash.
 WORKDIR /tmp
@@ -25,6 +28,9 @@ RUN set -x \
   && mkdir /opt/logstash/system \
   && touch /opt/logstash/system/server.pid \
   && touch /opt/logstash/system/supervisor.ini \
+  && ln -sf /opt/logstash/conf/server.yml /usr/local/lib/logstash/config/logstash.yml \
+  && ln -sf /opt/logstash/conf/jvm.options /usr/local/lib/logstash/config/jvm.options \
+  && ln -sf /opt/logstash/conf/pipelines.yml /usr/local/lib/logstash/config/pipelines.yml \
   && ln -s /opt/logstash/system/supervisor.ini /etc/supervisord.d/logstash.ini \
   && history -c
 

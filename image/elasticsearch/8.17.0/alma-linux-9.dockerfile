@@ -1,8 +1,11 @@
 # Docker image to use.
-FROM sloopstash/base:v1.1.1
+FROM sloopstash/alma-linux-9:v1.1.1
 
 # Install system packages.
-RUN yum install -y perl-Digest-SHA
+RUN set -x \
+  && dnf install -y perl-Digest-SHA \
+  && dnf clean all \
+  && rm -rf /var/cache/dnf
 
 # Install Elasticsearch.
 WORKDIR /tmp
@@ -15,6 +18,9 @@ RUN set -x \
   && cp -r elasticsearch-8.17.0/* /usr/local/lib/elasticsearch/ \
   && rm -rf elasticsearch-8.17.0*
 
+# Create system user for Elasticsearch.
+RUN useradd -m elasticsearch
+
 # Create Elasticsearch directories.
 RUN set -x \
   && mkdir /opt/elasticsearch \
@@ -23,9 +29,14 @@ RUN set -x \
   && mkdir /opt/elasticsearch/conf \
   && mkdir /opt/elasticsearch/script \
   && mkdir /opt/elasticsearch/system \
-  && touch /opt/elasticsearch/system/node.pid \
+  && touch /opt/elasticsearch/system/server.pid \
   && touch /opt/elasticsearch/system/supervisor.ini \
+  && ln -sf /opt/elasticsearch/conf/server.yml /usr/local/lib/elasticsearch/config/elasticsearch.yml \
+  && ln -sf /opt/elasticsearch/conf/jvm.options /usr/local/lib/elasticsearch/config/jvm.options \
+  && ln -s /opt/elasticsearch/system/security-limit.conf /etc/security/limits.d/elasticsearch.conf \
   && ln -s /opt/elasticsearch/system/supervisor.ini /etc/supervisord.d/elasticsearch.ini \
+  && chown -R elasticsearch:elasticsearch /usr/local/lib/elasticsearch \
+  && chown -R elasticsearch:elasticsearch /opt/elasticsearch \
   && history -c
 
 # Set default work directory.

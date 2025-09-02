@@ -1,0 +1,66 @@
+version: '3.8'
+services:
+  elasticsearch:
+    image: sloopstash/elasticsearch:v${OBSERVABILITY_ELASTICSEARCH_VERSION}
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    privileged: true
+    volumes:
+      - elasticsearch-data:/opt/elasticsearch/data
+      - elasticsearch-log:/opt/elasticsearch/log
+      - ${HOME_DIR}/workload/elasticsearch/${OBSERVABILITY_ELASTICSEARCH_VERSION}/conf/security-limit.conf:/opt/elasticsearch/system/security-limit.conf
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/elasticsearch/${OBSERVABILITY_ELASTICSEARCH_VERSION}/conf/supervisor.ini:/opt/elasticsearch/system/supervisor.ini
+      - ${HOME_DIR}/workload/elasticsearch/${OBSERVABILITY_ELASTICSEARCH_VERSION}/conf/server.yml:/opt/elasticsearch/conf/server.yml
+      - ${HOME_DIR}/workload/elasticsearch/${OBSERVABILITY_ELASTICSEARCH_VERSION}/conf/jvm.options:/opt/elasticsearch/conf/jvm.options
+    networks:
+      - common
+  logstash:
+    image: sloopstash/logstash:v${OBSERVABILITY_LOGSTASH_VERSION}
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    volumes:
+      - logstash-data:/opt/logstash/data
+      - logstash-log:/opt/logstash/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/logstash/${OBSERVABILITY_LOGSTASH_VERSION}/conf/supervisor.ini:/opt/logstash/system/supervisor.ini
+      - ${HOME_DIR}/workload/logstash/${OBSERVABILITY_LOGSTASH_VERSION}/conf/server.yml:/opt/logstash/conf/server.yml
+      - ${HOME_DIR}/workload/logstash/${OBSERVABILITY_LOGSTASH_VERSION}/conf/jvm.options:/opt/logstash/conf/jvm.options
+      - ${HOME_DIR}/workload/logstash/${OBSERVABILITY_LOGSTASH_VERSION}/conf/pipelines.yml:/opt/logstash/conf/pipelines.yml
+      - ${HOME_DIR}/workload/logstash/${OBSERVABILITY_LOGSTASH_VERSION}/conf/beats.conf:/opt/logstash/conf/beats.conf
+    networks:
+      - common
+  kibana:
+    image: sloopstash/kibana:v${OBSERVABILITY_KIBANA_VERSION}
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    ports:
+      - "${OBSERVABILITY_ELK_KIBANA_PORT}:5601"
+    volumes:
+      - kibana-data:/opt/kibana/data
+      - kibana-log:/opt/kibana/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/kibana/${OBSERVABILITY_KIBANA_VERSION}/conf/supervisor.ini:/opt/kibana/system/supervisor.ini
+      - ${HOME_DIR}/workload/kibana/${OBSERVABILITY_KIBANA_VERSION}/conf/server.yml:/opt/kibana/conf/server.yml
+    networks:
+      - common
+volumes:
+  elasticsearch-data:
+    driver: local
+  elasticsearch-log:
+    driver: local
+  logstash-data:
+    driver: local
+  logstash-log:
+    driver: local
+  kibana-data:
+    driver: local
+  kibana-log:
+    driver: local
+networks:
+  common:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${OBSERVABILITY_ELK_NETWORK}

@@ -1,19 +1,15 @@
 # Docker image to use.
-FROM sloopstash/base:v1.1.1
-
-# Install system packages.
-RUN yum install -y perl-Digest-SHA
+FROM sloopstash/amazon-linux-2:v1.1.1
 
 # Install Kibana.
 WORKDIR /tmp
 RUN set -x \
-  && wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.0-linux-x86_64.tar.gz --quiet \
-  && wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.0-linux-x86_64.tar.gz.sha512 --quiet \
-  && shasum -a 512 -c kibana-8.17.0-linux-x86_64.tar.gz.sha512 \
-  && tar xvzf kibana-8.17.0-linux-x86_64.tar.gz > /dev/null \
+  && wget https://artifacts.elastic.co/downloads/kibana/kibana-6.8.2-linux-x86_64.tar.gz --quiet \
+  && sha1sum kibana-6.8.2-linux-x86_64.tar.gz \
+  && tar xvzf kibana-6.8.2-linux-x86_64.tar.gz > /dev/null \
   && mkdir /usr/local/lib/kibana \
-  && cp -r kibana-8.17.0/* /usr/local/lib/kibana/ \
-  && rm -rf kibana-8.17.0*
+  && cp -r kibana-6.8.2-linux-x86_64/* /usr/local/lib/kibana/ \
+  && rm -rf kibana-6.8.2*
 
 # Create Kibana directories.
 RUN set -x \
