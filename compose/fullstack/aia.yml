@@ -49,7 +49,7 @@ services:
       - ${AIA_APP_SOURCE}:/opt/app/source
       - app-log:/opt/app/log
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
-      - ${HOME_DIR}/_stack/aia/app/conf/supervisor.ini:/opt/app/system/supervisor.ini
+      - ${HOME_DIR}/_stack/fullstack/aia/app/conf/supervisor.ini:/opt/app/system/supervisor.ini
     depends_on:
       - redis
       - chroma
@@ -69,7 +69,7 @@ services:
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
       - ${HOME_DIR}/workload/nginx/${AIA_NGINX_VERSION}/conf/supervisor.ini:/opt/nginx/system/supervisor.ini
       - ${HOME_DIR}/workload/nginx/${AIA_NGINX_VERSION}/conf/server.conf:/opt/nginx/conf/server.conf
-      - ${HOME_DIR}/_stack/aia/nginx/conf/app.conf:/opt/nginx/conf/app.conf
+      - ${HOME_DIR}/_stack/fullstack/aia/nginx/conf/app.conf:/opt/nginx/conf/app.conf
     depends_on:
       - app
     networks:
