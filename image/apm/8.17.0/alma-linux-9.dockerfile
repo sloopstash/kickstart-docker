@@ -1,8 +1,11 @@
 # Docker image to use.
-FROM sloopstash/base:v1.1.1
+FROM sloopstash/alma-linux-9:v1.1.1
 
 # Install system packages.
-RUN yum install -y perl-Digest-SHA
+RUN set -x \
+  && dnf install -y perl-Digest-SHA \
+  && dnf clean all \
+  && rm -rf /var/cache/dnf
 
 # Install APM.
 WORKDIR /tmp
@@ -25,6 +28,7 @@ RUN set -x \
   && mkdir /opt/apm/system \
   && touch /opt/apm/system/server.pid \
   && touch /opt/apm/system/supervisor.ini \
+  && ln -sf /opt/apm/conf/server.yml /usr/local/lib/apm/apm-server.yml \
   && ln -s /opt/apm/system/supervisor.ini /etc/supervisord.d/apm.ini \
   && history -c
 

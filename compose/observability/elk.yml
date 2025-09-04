@@ -5,6 +5,8 @@ services:
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     privileged: true
+    ports:
+      - "${OBSERVABILITY_ELK_ELASTICSEARCH_PORT}:9200"
     volumes:
       - elasticsearch-data:/opt/elasticsearch/data
       - elasticsearch-log:/opt/elasticsearch/log
@@ -19,6 +21,8 @@ services:
     image: sloopstash/logstash:v${OBSERVABILITY_LOGSTASH_VERSION}
     entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
+    ports:
+      - "${OBSERVABILITY_ELK_LOGSTASH_PORT}:5044"
     volumes:
       - logstash-data:/opt/logstash/data
       - logstash-log:/opt/logstash/log
@@ -28,6 +32,8 @@ services:
       - ${HOME_DIR}/workload/logstash/${OBSERVABILITY_LOGSTASH_VERSION}/conf/jvm.options:/opt/logstash/conf/jvm.options
       - ${HOME_DIR}/workload/logstash/${OBSERVABILITY_LOGSTASH_VERSION}/conf/pipelines.yml:/opt/logstash/conf/pipelines.yml
       - ${HOME_DIR}/workload/logstash/${OBSERVABILITY_LOGSTASH_VERSION}/conf/beats.conf:/opt/logstash/conf/beats.conf
+    depends_on:
+      - elasticsearch
     networks:
       - common
   kibana:
@@ -42,6 +48,25 @@ services:
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
       - ${HOME_DIR}/workload/kibana/${OBSERVABILITY_KIBANA_VERSION}/conf/supervisor.ini:/opt/kibana/system/supervisor.ini
       - ${HOME_DIR}/workload/kibana/${OBSERVABILITY_KIBANA_VERSION}/conf/server.yml:/opt/kibana/conf/server.yml
+    depends_on:
+      - elasticsearch
+    networks:
+      - common
+  apm:
+    image: sloopstash/apm:v${OBSERVABILITY_APM_VERSION}
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    ports:
+      - "${OBSERVABILITY_ELK_APM_PORT}:8200"
+    volumes:
+      - apm-data:/opt/apm/data
+      - apm-log:/opt/apm/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/apm/${OBSERVABILITY_APM_VERSION}/conf/supervisor.ini:/opt/apm/system/supervisor.ini
+      - ${HOME_DIR}/workload/apm/${OBSERVABILITY_APM_VERSION}/conf/server.yml:/opt/apm/conf/server.yml
+    depends_on:
+      - elasticsearch
+      - logstash
     networks:
       - common
 volumes:
@@ -56,6 +81,10 @@ volumes:
   kibana-data:
     driver: local
   kibana-log:
+    driver: local
+  apm-data:
+    driver: local
+  apm-log:
     driver: local
 networks:
   common:
