@@ -1,11 +1,14 @@
 # Docker image to use.
-FROM sloopstash/alma-linux-9:v1.1.1
+FROM sloopstash/alma-linux-9:v1.1.1 AS install_system_packages
 
 # Install system packages.
 RUN set -x \
   && dnf install -y perl-Digest-SHA \
   && dnf clean all \
   && rm -rf /var/cache/dnf
+
+# Intermediate Docker image to use.
+FROM --platform=linux/amd64 install_system_packages AS install_elasticsearch_amd64
 
 # Install Elasticsearch.
 WORKDIR /tmp
@@ -17,6 +20,23 @@ RUN set -x \
   && mkdir /usr/local/lib/elasticsearch \
   && cp -r elasticsearch-8.17.0/* /usr/local/lib/elasticsearch/ \
   && rm -rf elasticsearch-8.17.0*
+
+# Intermediate Docker image to use.
+FROM --platform=linux/arm64 install_system_packages AS install_elasticsearch_arm64
+
+# Install Elasticsearch.
+WORKDIR /tmp
+RUN set -x \
+  && wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.17.0-linux-aarch64.tar.gz --quiet \
+  && wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.17.0-linux-aarch64.tar.gz.sha512 --quiet \
+  && shasum -a 512 -c elasticsearch-8.17.0-linux-aarch64.tar.gz.sha512 \
+  && tar xvzf elasticsearch-8.17.0-linux-aarch64.tar.gz > /dev/null \
+  && mkdir /usr/local/lib/elasticsearch \
+  && cp -r elasticsearch-8.17.0/* /usr/local/lib/elasticsearch/ \
+  && rm -rf elasticsearch-8.17.0*
+
+# Intermediate Docker image to use.
+FROM install_elasticsearch_${TARGETARCH}
 
 # Create system user for Elasticsearch.
 RUN useradd -m elasticsearch

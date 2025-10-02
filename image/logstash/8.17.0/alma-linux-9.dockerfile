@@ -1,11 +1,14 @@
 # Docker image to use.
-FROM sloopstash/alma-linux-9:v1.1.1
+FROM sloopstash/alma-linux-9:v1.1.1 AS install_system_packages
 
 # Install system packages.
 RUN set -x \
   && dnf install -y perl-Digest-SHA \
   && dnf clean all \
   && rm -rf /var/cache/dnf
+
+# Intermediate Docker image to use.
+FROM --platform=linux/amd64 install_system_packages AS install_logstash_amd64
 
 # Install Logstash.
 WORKDIR /tmp
@@ -17,6 +20,23 @@ RUN set -x \
   && mkdir /usr/local/lib/logstash \
   && cp -r logstash-8.17.0/* /usr/local/lib/logstash/ \
   && rm -rf logstash-8.17.0*
+
+# Intermediate Docker image to use.
+FROM --platform=linux/arm64 install_system_packages AS install_logstash_arm64
+
+# Install Logstash.
+WORKDIR /tmp
+RUN set -x \
+  && wget https://artifacts.elastic.co/downloads/logstash/logstash-8.17.0-linux-aarch64.tar.gz --quiet \
+  && wget https://artifacts.elastic.co/downloads/logstash/logstash-8.17.0-linux-aarch64.tar.gz.sha512 --quiet \
+  && shasum -a 512 -c logstash-8.17.0-linux-aarch64.tar.gz.sha512 \
+  && tar xvzf logstash-8.17.0-linux-aarch64.tar.gz > /dev/null \
+  && mkdir /usr/local/lib/logstash \
+  && cp -r logstash-8.17.0/* /usr/local/lib/logstash/ \
+  && rm -rf logstash-8.17.0*
+
+# Intermediate Docker image to use.
+FROM install_logstash_${TARGETARCH}
 
 # Create Logstash directories.
 RUN set -x \

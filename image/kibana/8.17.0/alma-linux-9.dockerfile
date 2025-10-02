@@ -1,11 +1,14 @@
 # Docker image to use.
-FROM sloopstash/alma-linux-9:v1.1.1
+FROM sloopstash/alma-linux-9:v1.1.1 AS install_system_packages
 
 # Install system packages.
 RUN set -x \
   && dnf install -y perl-Digest-SHA \
   && dnf clean all \
   && rm -rf /var/cache/dnf
+
+# Intermediate Docker image to use.
+FROM --platform=linux/amd64 install_system_packages AS install_kibana_amd64
 
 # Install Kibana.
 WORKDIR /tmp
@@ -17,6 +20,23 @@ RUN set -x \
   && mkdir /usr/local/lib/kibana \
   && cp -r kibana-8.17.0/* /usr/local/lib/kibana/ \
   && rm -rf kibana-8.17.0*
+
+# Intermediate Docker image to use.
+FROM --platform=linux/arm64 install_system_packages AS install_kibana_arm64
+
+# Install Kibana.
+WORKDIR /tmp
+RUN set -x \
+  && wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.0-linux-aarch64.tar.gz --quiet \
+  && wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.0-linux-aarch64.tar.gz.sha512 --quiet \
+  && shasum -a 512 -c kibana-8.17.0-linux-aarch64.tar.gz.sha512 \
+  && tar xvzf kibana-8.17.0-linux-aarch64.tar.gz > /dev/null \
+  && mkdir /usr/local/lib/kibana \
+  && cp -r kibana-8.17.0/* /usr/local/lib/kibana/ \
+  && rm -rf kibana-8.17.0*
+
+# Intermediate Docker image to use.
+FROM install_kibana_${TARGETARCH}
 
 # Create Kibana directories.
 RUN set -x \

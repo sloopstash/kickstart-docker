@@ -1,5 +1,5 @@
 # Docker image to use.
-FROM sloopstash/base:v1.1.1
+FROM --platform=linux/amd64 sloopstash/amazon-linux-2:v1.1.1 AS install_nginx_amd64
 
 # Install Nginx.
 WORKDIR /tmp
@@ -7,6 +7,19 @@ RUN set -x \
   && wget https://nginx.org/packages/rhel/7/x86_64/RPMS/nginx-1.24.0-1.el7.ngx.x86_64.rpm --quiet \
   && yum install -y nginx-1.24.0-1.el7.ngx.x86_64.rpm \
   && rm -f nginx-1.24.0-1.el7.ngx.x86_64.rpm
+
+# Docker image to use.
+FROM --platform=linux/arm64 sloopstash/amazon-linux-2:v1.1.1 AS install_nginx_arm64
+
+# Install Nginx.
+WORKDIR /tmp
+RUN set -x \
+  && wget https://nginx.org/packages/rhel/7/aarch64/RPMS/nginx-1.24.0-1.el7.ngx.aarch64.rpm --quiet \
+  && yum install -y nginx-1.24.0-1.el7.ngx.aarch64.rpm \
+  && rm -f nginx-1.24.0-1.el7.ngx.aarch64.rpm
+
+# Intermediate Docker image to use.
+FROM install_nginx_${TARGETARCH}
 
 # Create App and Nginx directories.
 RUN set -x \

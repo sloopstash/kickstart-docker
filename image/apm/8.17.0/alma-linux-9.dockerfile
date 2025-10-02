@@ -1,11 +1,14 @@
 # Docker image to use.
-FROM sloopstash/alma-linux-9:v1.1.1
+FROM sloopstash/alma-linux-9:v1.1.1 AS install_system_packages
 
 # Install system packages.
 RUN set -x \
   && dnf install -y perl-Digest-SHA \
   && dnf clean all \
   && rm -rf /var/cache/dnf
+
+# Intermediate Docker image to use.
+FROM --platform=linux/amd64 install_system_packages AS install_apm_amd64
 
 # Install APM.
 WORKDIR /tmp
@@ -15,8 +18,25 @@ RUN set -x \
   && shasum -a 512 -c apm-server-8.17.0-linux-x86_64.tar.gz.sha512 \
   && tar xvzf apm-server-8.17.0-linux-x86_64.tar.gz > /dev/null \
   && mkdir /usr/local/lib/apm \
-  && cp -r apm-server-8.17.0/* /usr/local/lib/apm/ \
+  && cp -r apm-server-8.17.0-linux-x86_64/* /usr/local/lib/apm/ \
   && rm -rf apm-server-8.17.0*
+
+# Intermediate Docker image to use.
+FROM --platform=linux/arm64 install_system_packages AS install_apm_arm64
+
+# Install APM.
+WORKDIR /tmp
+RUN set -x \
+  && wget https://artifacts.elastic.co/downloads/apm-server/apm-server-8.17.0-linux-arm64.tar.gz --quiet \
+  && wget https://artifacts.elastic.co/downloads/apm-server/apm-server-8.17.0-linux-arm64.tar.gz.sha512 --quiet \
+  && shasum -a 512 -c apm-server-8.17.0-linux-arm64.tar.gz.sha512 \
+  && tar xvzf apm-server-8.17.0-linux-arm64.tar.gz > /dev/null \
+  && mkdir /usr/local/lib/apm \
+  && cp -r apm-server-8.17.0-linux-arm64/* /usr/local/lib/apm/ \
+  && rm -rf apm-server-8.17.0*
+
+# Intermediate Docker image to use.
+FROM install_apm_${TARGETARCH}
 
 # Create APM directories.
 RUN set -x \
