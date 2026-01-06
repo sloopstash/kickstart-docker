@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  grafana:
+    image: sloopstash/grafana:v${OBSERVABILITY_GRAFANA_VERSION}
+    entrypoint: /usr/local/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    privileged: true
+    ports:
+      - "${OBSERVABILITY_GRAFANA_PORT}:3000"
+    volumes:
+      - grafana-data:/opt/grafana/data
+      - grafana-log:/opt/grafana/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/grafana/${OBSERVABILITY_GRAFANA_VERSION}/conf/supervisor.ini:/opt/grafana/system/supervisor.ini
+      - ${HOME_DIR}/workload/grafana/${OBSERVABILITY_GRAFANA_VERSION}/conf/server.conf:/opt/grafana/conf/server.conf
+    networks:
+      - common
+volumes:
+  grafana-data:
+    driver: local
+  grafana-log:
+    driver: local
+networks:
+  common:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${OBSERVABILITY_GRAFANA_NETWORK}
