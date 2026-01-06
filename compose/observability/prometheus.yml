@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  prometheus:
+    image: sloopstash/prometheus:v${OBSERVABILITY_PROMETHEUS_VERSION}
+    entrypoint: /usr/local/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    privileged: true
+    ports:
+      - "${OBSERVABILITY_PROMETHEUS_PORT}:9090"
+    volumes:
+      - prometheus-data:/opt/prometheus/data
+      - prometheus-log:/opt/prometheus/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/prometheus/${OBSERVABILITY_PROMETHEUS_VERSION}/conf/supervisor.ini:/opt/prometheus/system/supervisor.ini
+      - ${HOME_DIR}/workload/prometheus/${OBSERVABILITY_PROMETHEUS_VERSION}/conf/server.conf:/opt/prometheus/conf/server.conf
+    networks:
+      - common
+volumes:
+  prometheus-data:
+    driver: local
+  prometheus-log:
+    driver: local
+networks:
+  common:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${OBSERVABILITY_PROMETHEUS_NETWORK}
