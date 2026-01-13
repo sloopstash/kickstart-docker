@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+  prometheus:
+    image: sloopstash/prometheus:v${OBSERVABILITY_PROMETHEUS_VERSION}
+    entrypoint: /usr/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    ports:
+      - "${OBSERVABILITY_PG_PROMETHEUS_PORT}:9090"
+    volumes:
+      - prometheus-data:/opt/prometheus/data
+      - prometheus-log:/opt/prometheus/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/prometheus/${OBSERVABILITY_PROMETHEUS_VERSION}/conf/supervisor.ini:/opt/prometheus/system/supervisor.ini
+      - ${HOME_DIR}/workload/prometheus/${OBSERVABILITY_PROMETHEUS_VERSION}/conf/server.conf:/opt/prometheus/conf/server.conf
+    networks:
+      - common
+  grafana:
+    image: sloopstash/grafana:v${OBSERVABILITY_GRAFANA_VERSION}
+    entrypoint: /usr/local/bin/supervisord
+    command: "-c /etc/supervisord.conf"
+    ports:
+      - "${OBSERVABILITY_PG_GRAFANA_PORT}:3000"
+    volumes:
+      - grafana-plugin:/opt/grafana/plugin
+      - grafana-provisioning:/opt/grafana/provisioning
+      - grafana-data:/opt/grafana/data
+      - grafana-log:/opt/grafana/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/grafana/${OBSERVABILITY_GRAFANA_VERSION}/conf/supervisor.ini:/opt/grafana/system/supervisor.ini
+      - ${HOME_DIR}/workload/grafana/${OBSERVABILITY_GRAFANA_VERSION}/conf/server.ini:/opt/grafana/conf/server.ini
+    networks:
+      - common
+volumes:
+  prometheus-data:
+    driver: local
+  prometheus-log:
+    driver: local
+  grafana-plugin:
+    driver: local
+  grafana-provisioning:
+    driver: local
+  grafana-data:
+    driver: local
+  grafana-log:
+    driver: local
+networks:
+  common:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${OBSERVABILITY_PG_NETWORK}
