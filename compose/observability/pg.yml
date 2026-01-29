@@ -2,7 +2,7 @@ version: '3.8'
 services:
   prometheus:
     image: sloopstash/prometheus:v${OBSERVABILITY_PROMETHEUS_VERSION}
-    entrypoint: /usr/bin/supervisord
+    entrypoint: /usr/local/bin/supervisord
     command: "-c /etc/supervisord.conf"
     ports:
       - "${OBSERVABILITY_PG_PROMETHEUS_PORT}:9090"
