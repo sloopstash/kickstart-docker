@@ -2,7 +2,7 @@ version: '3.8'
 services:
   elasticsearch:
     image: sloopstash/elasticsearch:v${OBSERVABILITY_ELASTICSEARCH_VERSION}
-    entrypoint: /usr/bin/supervisord
+    entrypoint: /usr/local/bin/supervisord
     command: "-c /etc/supervisord.conf"
     privileged: true
     ports:
@@ -19,7 +19,7 @@ services:
       - common
   logstash:
     image: sloopstash/logstash:v${OBSERVABILITY_LOGSTASH_VERSION}
-    entrypoint: /usr/bin/supervisord
+    entrypoint: /usr/local/bin/supervisord
     command: "-c /etc/supervisord.conf"
     ports:
       - "${OBSERVABILITY_ELK_LOGSTASH_PORT}:5044"
@@ -38,7 +38,7 @@ services:
       - common
   kibana:
     image: sloopstash/kibana:v${OBSERVABILITY_KIBANA_VERSION}
-    entrypoint: /usr/bin/supervisord
+    entrypoint: /usr/local/bin/supervisord
     command: "-c /etc/supervisord.conf"
     ports:
       - "${OBSERVABILITY_ELK_KIBANA_PORT}:5601"
@@ -54,7 +54,7 @@ services:
       - common
   apm:
     image: sloopstash/apm:v${OBSERVABILITY_APM_VERSION}
-    entrypoint: /usr/bin/supervisord
+    entrypoint: /usr/local/bin/supervisord
     command: "-c /etc/supervisord.conf"
     ports:
       - "${OBSERVABILITY_ELK_APM_PORT}:8200"
