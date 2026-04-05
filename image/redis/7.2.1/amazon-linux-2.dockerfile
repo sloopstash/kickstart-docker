@@ -1,5 +1,5 @@
 # Docker image to use.
-FROM sloopstash/base:v1.2.1 AS install_system_packages
+FROM sloopstash/amazon-linux-2:v1.1.1 AS install_system_packages
 
 # Install system packages.
 RUN set -x \
@@ -24,7 +24,7 @@ RUN set -x \
   && make install
 
 # Docker image to use.
-FROM sloopstash/base:v1.2.1 AS create_redis_directories
+FROM sloopstash/amazon-linux-2:v1.1.1 AS create_redis_directories
 
 # Create Redis directories.
 RUN set -x \
@@ -38,7 +38,7 @@ RUN set -x \
   && touch /opt/redis/system/supervisor.ini
 
 # Docker image to use.
-FROM sloopstash/base:v1.2.1 AS finalize_redis_oci_image
+FROM sloopstash/amazon-linux-2:v1.1.1 AS finalize_redis_oci_image
 
 # Copy Redis binary executable programs.
 COPY --from=install_redis /usr/local/bin/redis-server /usr/local/bin/redis-server
