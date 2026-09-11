@@ -16,7 +16,7 @@ services:
       - common
   grafana:
     image: sloopstash/grafana:v${OBSERVABILITY_GRAFANA_VERSION}
-    entrypoint: /usr/local/bin/supervisord
+    entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     ports:
       - "${OBSERVABILITY_PG_GRAFANA_PORT}:3000"
