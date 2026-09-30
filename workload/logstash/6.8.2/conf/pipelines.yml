@@ -1,3 +1,0 @@
-- pipeline.id: beats
-  queue.type: persisted
-  path.config: /opt/logstash/conf/beats.conf
