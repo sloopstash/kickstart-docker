@@ -11,12 +11,12 @@ services:
       - prometheus-log:/opt/prometheus/log
       - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
       - ${HOME_DIR}/workload/prometheus/${OBSERVABILITY_PROMETHEUS_VERSION}/conf/supervisor.ini:/opt/prometheus/system/supervisor.ini
-      - ${HOME_DIR}/workload/prometheus/${OBSERVABILITY_PROMETHEUS_VERSION}/conf/server.conf:/opt/prometheus/conf/server.conf
+      - ${HOME_DIR}/workload/prometheus/${OBSERVABILITY_PROMETHEUS_VERSION}/conf/server.yml:/opt/prometheus/conf/server.yml
     networks:
       - common
   grafana:
     image: sloopstash/grafana:v${OBSERVABILITY_GRAFANA_VERSION}
-    entrypoint: /usr/local/bin/supervisord
+    entrypoint: /usr/bin/supervisord
     command: "-c /etc/supervisord.conf"
     ports:
       - "${OBSERVABILITY_GRAFANA_PORT}:3000"
