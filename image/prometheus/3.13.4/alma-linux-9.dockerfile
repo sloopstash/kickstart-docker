@@ -16,11 +16,11 @@ FROM --platform=linux/arm64 sloopstash/alma-linux-9:v1.1.1 AS install_prometheus
 # Install Prometheus.
 WORKDIR /tmp
 RUN set -x \
-  && wget https://github.com/prometheus/prometheus/releases/download/v3.13.4/prometheus-3.13.4.darwin-arm64.tar.gz --quiet \
-  && tar xvzf prometheus-3.13.4.darwin-arm64.tar.gz > /dev/null \
-  && mv prometheus-3.13.4.darwin-arm64/prometheus /usr/local/bin/ \
-  && mv prometheus-3.13.4.darwin-arm64/promtool /usr/local/bin/ \
-  && rm -rf prometheus-3.13.4.darwin-arm64*
+  && wget https://github.com/prometheus/prometheus/releases/download/v3.13.4/prometheus-3.13.4.linux-arm64.tar.gz --quiet \
+  && tar xvzf prometheus-3.13.4.linux-arm64.tar.gz > /dev/null \
+  && mv prometheus-3.13.4.linux-arm64/prometheus /usr/local/bin/ \
+  && mv prometheus-3.13.4.linux-arm64/promtool /usr/local/bin/ \
+  && rm -rf prometheus-3.13.4.linux-arm64*
 
 # Intermediate Docker image to use.
 FROM install_prometheus_${TARGETARCH}

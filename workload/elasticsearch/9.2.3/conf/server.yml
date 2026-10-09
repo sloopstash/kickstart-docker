@@ -81,6 +81,9 @@ http.port: 9200
 #
 action.destructive_requires_name: true
 # ---------------------------------- Extra -------------------------------------
+node.roles: [
+  master, data, data_content, data_hot, data_warm, data_cold, data_frozen, ingest, ml, remote_cluster_client, transform
+]
 discovery.type: single-node
 xpack.security.enabled: false
 xpack.security.enrollment.enabled: false

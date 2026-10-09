@@ -8,11 +8,6 @@ global:
   evaluation_interval: 20s
   query_log_file: /opt/prometheus/log/query.log
 scrape_configs:
-  - job_name: "prometheus"
-    static_configs:
-      - targets: ["localhost:9090"]
-        labels:
-          app: "prometheus"
   - job_name: "system"
     static_configs:
       - targets: ["localhost:9091"]
@@ -25,7 +20,7 @@ scrape_configs:
           app: "cadvisor"
   - job_name: "kubernetes"
     static_configs:
-      - targets: ["localhost:9093"]
+      - targets: ["localhost:9092"]
         labels:
           app: "cadvisor"
 rule_files:

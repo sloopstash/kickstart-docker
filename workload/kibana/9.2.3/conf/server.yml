@@ -181,3 +181,8 @@ ops.interval: 5000
 # Maximum number of documents loaded by each shard to generate autocomplete suggestions.
 # This value must be a whole number greater than zero. Defaults to 100_000
 #unifiedSearch.autocomplete.valueSuggestions.terminateAfter: 100000
+
+# =========================== Extra ===========================
+#xpack.encryptedSavedObjects.encryptionKey: xxxxxxxxxxxxxxxxxxxx
+#xpack.reporting.encryptionKey: xxxxxxxxxxxxxxxxxxxx
+#xpack.security.encryptionKey: xxxxxxxxxxxxxxxxxxxx
