@@ -30,6 +30,7 @@ RUN set -x \
   && mkdir /opt/prometheus \
   && mkdir /opt/prometheus/data \
   && mkdir /opt/prometheus/log \
+  && mkdir /opt/prometheus/secret \
   && mkdir /opt/prometheus/conf \
   && mkdir /opt/prometheus/script \
   && mkdir /opt/prometheus/system \

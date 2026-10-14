@@ -8,21 +8,63 @@ global:
   evaluation_interval: 20s
   query_log_file: /opt/prometheus/log/query.log
 scrape_configs:
-  - job_name: "system"
+  - job_name: system
     static_configs:
-      - targets: ["localhost:9091"]
+      - targets: [
+          "192.168.101.61:9091",
+          "192.168.101.64:9091",
+          "192.168.101.65:9091",
+          "192.168.201.61:9091",
+          "192.168.201.64:9091",
+          "192.168.201.65:9091"
+        ]
         labels:
-          app: "node_exporter"
-  - job_name: "docker"
+          app: node_exporter
+  - job_name: docker
     static_configs:
-      - targets: ["localhost:9092"]
+      - targets: [
+          "192.168.101.61:9092",
+          "192.168.101.64:9092",
+          "192.168.101.65:9092",
+          "192.168.201.61:9092",
+          "192.168.201.64:9092",
+          "192.168.201.65:9092"
+        ]
         labels:
-          app: "cadvisor"
-  - job_name: "kubernetes"
-    static_configs:
-      - targets: ["localhost:9092"]
-        labels:
-          app: "cadvisor"
+          app: cadvisor
+  - job_name: kubernetes[api-server]
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
+      cert_file: /opt/prometheus/secret/kubernetes/client.crt
+      key_file: /opt/prometheus/secret/kubernetes/client.key
+    kubernetes_sd_configs:
+      - kubeconfig_file: /opt/prometheus/secret/kubernetes/kubeconfig.yml
+        role: endpoints
+    relabel_configs:
+      - source_labels: [
+          __meta_kubernetes_namespace,
+          __meta_kubernetes_service_name,
+          __meta_kubernetes_endpoint_port_name
+        ]
+        action: keep
+        regex: default;kubernetes;https
+  - job_name: kubernetes[node]
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
+      cert_file: /opt/prometheus/secret/kubernetes/client.crt
+      key_file: /opt/prometheus/secret/kubernetes/client.key
+    kubernetes_sd_configs:
+      - kubeconfig_file: /opt/prometheus/secret/kubernetes/kubeconfig.yml
+        role: node
+    relabel_configs:
+      - action: labelmap
+        regex: __meta_kubernetes_node_label_(.+)
+      - target_label: __metrics_path__
+        replacement: /metrics/cadvisor
+      - source_labels: [__meta_kubernetes_node_name]
+        target_label: node
 rule_files:
 alerting:
   alertmanagers:
