@@ -1,0 +1,24 @@
+services: 
+  llama-cpp:
+    image: sloopstash/llama-cpp:${LLAMA_CPP_IMAGE_VERSION}
+    gpus: all
+    ports: 
+      - "8080:8080"
+    environment:
+      LLAMA_MODEL: /opt/llama-cpp/model/${LLAMA_MODEL_FILE}
+      LLAMA_HOST: 0.0.0.0
+      LLAMA_PORT: "8080"
+      LLAMA_N_GPU_LAYERS: "${LLAMA_N_GPU_LAYERS}"
+    volumes: 
+      - ${HOME_DIR}/models:/opt/llama-cpp/model
+      - llama-cpp-log:/opt/llama-cpp/log
+      - ${HOME_DIR}/workload/supervisor/conf/server.conf:/etc/supervisord.conf
+      - ${HOME_DIR}/workload/llama-cpp/${LLAMA_CPP_VERSION}/conf/supervisor.ini:/opt/llama-cpp/system/supervisor.ini
+    networks:
+      - common
+volumes: 
+  llama-cpp-log:
+    driver: local
+networks:
+  common:
+    driver: bridge 
